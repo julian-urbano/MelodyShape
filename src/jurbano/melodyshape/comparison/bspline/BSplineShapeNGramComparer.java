@@ -12,6 +12,7 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
+
 package jurbano.melodyshape.comparison.bspline;
 
 import jurbano.melodyshape.comparison.NGram;
@@ -68,11 +69,11 @@ public class BSplineShapeNGramComparer implements NGramComparer
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @return the {@link String} {@code "BSplineShape"}.
+	 * @return the {@link String} {@code "BSplineShape(dMax,dMed,dMin)"}.
 	 */
 	@Override
 	public String getName() {
-		return "BSplineShape";
+		return "BSplineShape(" + this.dMax + "," + this.dMed + "," + this.dMin + ")";
 	}
 	
 	// TODO: CAREFUL HERE WITH CACHES, THE ORDER OF CONDITION CHECKING DIFFERS

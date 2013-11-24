@@ -49,7 +49,7 @@ public class LocalAligner implements MelodyAligner
 	 */
 	@Override
 	public String getName() {
-		return "Local";
+		return "Local("+this.comparer.getName()+")";
 	}
 	
 	/**

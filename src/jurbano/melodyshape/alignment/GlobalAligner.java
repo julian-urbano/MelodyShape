@@ -51,7 +51,7 @@ public class GlobalAligner implements MelodyAligner
 	 */
 	@Override
 	public String getName() {
-		return "Global";
+		return "Global("+this.comparer.getName()+")";
 	}
 	
 	/**

@@ -34,6 +34,11 @@ import java.util.HashMap;
  * {@code NGram}s' identifiers to their similarity score. This class does not
  * implement a replacement policy; whenever the cache is full no more similarity
  * scores are added, regardless of the age of cached scores.
+ * <p>
+ * Note that this class does not guarantee faster execution in all cases; if the
+ * computation of the cached {@link NGramComparer} is faster than checking and
+ * retrieving previous scores, the use of a cache will actually reduce
+ * efficiency.
  * 
  * @author Julián Urbano
  * @see NGramComparer
@@ -119,8 +124,10 @@ public class CachedNGramComparer implements NGramComparer
 			return diff;
 		else {
 			double newDiff = this.comparer.compare(n1, n2);
-			if (this.cache.size() < this.maxCacheSize)
-				this.cache.put(id, newDiff);
+			synchronized (this.cache) {
+				if (this.cache.size() < this.maxCacheSize)
+					this.cache.put(id, newDiff);
+			}
 			return newDiff;
 		}
 	}

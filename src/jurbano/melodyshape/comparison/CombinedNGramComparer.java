@@ -34,12 +34,18 @@ public class CombinedNGramComparer implements NGramComparer
 	/**
 	 * Constructs a new {@code CombinedNGramComparer}.
 	 * 
-	 * @param comparer1 the first comparer to combine.
-	 * @param comparer2 the second comparer to combine.
-	 * @param w_1 the weight for the first comparer's scores.
-	 * @param w_2 the weight for the second comparer's score.
-	 * @param mu_1 the average score returned by the first comparer.
-	 * @param mu_2 the average score returned by the second comparer.
+	 * @param comparer1
+	 *            the first comparer to combine.
+	 * @param comparer2
+	 *            the second comparer to combine.
+	 * @param w_1
+	 *            the weight for the first comparer's scores.
+	 * @param w_2
+	 *            the weight for the second comparer's score.
+	 * @param mu_1
+	 *            the average score returned by the first comparer.
+	 * @param mu_2
+	 *            the average score returned by the second comparer.
 	 */
 	public CombinedNGramComparer(NGramComparer comparer1, NGramComparer comparer2, double w_1, double w_2, double mu_1, double mu_2) {
 		if (w_1 == 0 && w_2 == 0)
@@ -57,11 +63,13 @@ public class CombinedNGramComparer implements NGramComparer
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @return the {@link String} {@code "(comparer1,comparer2)"}.
+	 * @return the {@link String}
+	 *         {@code "(comparer1(w_1,mu_1),comparer2(w_2,mu_2))"}.
 	 */
 	@Override
 	public String getName() {
-		return "(" + this.comparer1.getName() + "," + this.comparer2.getName() + ")";
+		return "(" + this.comparer1.getName() + "(" + this.w_1 + "," + this.mu_1 + ")," + this.comparer2.getName() + "(" + this.w_2 + ","
+				+ this.mu_2 + "))";
 	}
 	
 	/**

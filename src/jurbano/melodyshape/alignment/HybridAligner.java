@@ -36,7 +36,7 @@ import jurbano.melodyshape.comparison.NGramComparer;
  */
 public class HybridAligner implements MelodyAligner
 {
-	protected NGramComparer distFunc;
+	protected NGramComparer comparer;
 	
 	/**
 	 * Constructs a new {@code HybridAligner} with the specified
@@ -46,7 +46,7 @@ public class HybridAligner implements MelodyAligner
 	 *            the n-gram comparer to use.
 	 */
 	public HybridAligner(NGramComparer comparer) {
-		this.distFunc = comparer;
+		this.comparer = comparer;
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class HybridAligner implements MelodyAligner
 	 */
 	@Override
 	public String getName() {
-		return "Hybrid";
+		return "Hybrid("+this.comparer.getName()+")";
 	}
 	
 	/**
@@ -69,16 +69,16 @@ public class HybridAligner implements MelodyAligner
 		double[][] matrix = new double[s1.size() + 1][s2.size() + 1];
 		
 		for (int i = 1; i <= s1.size(); i++)
-			matrix[i][0] = matrix[i - 1][0] + this.distFunc.compare(s1.get(i - 1), null);
+			matrix[i][0] = matrix[i - 1][0] + this.comparer.compare(s1.get(i - 1), null);
 		for (int j = 1; j <= s2.size(); j++)
-			matrix[0][j] = matrix[0][j - 1] + this.distFunc.compare(null, s2.get(j - 1));
+			matrix[0][j] = matrix[0][j - 1] + this.comparer.compare(null, s2.get(j - 1));
 		
 		double max = Double.NEGATIVE_INFINITY;
 		for (int i = 1; i <= s1.size(); i++) {
 			for (int j = 1; j <= s2.size(); j++) {
-				double left = matrix[i - 1][j] + this.distFunc.compare(s1.get(i - 1), null);
-				double up = matrix[i][j - 1] + this.distFunc.compare(null, s2.get(j - 1));
-				double diag = matrix[i - 1][j - 1] + this.distFunc.compare(s1.get(i - 1), s2.get(j - 1));
+				double left = matrix[i - 1][j] + this.comparer.compare(s1.get(i - 1), null);
+				double up = matrix[i][j - 1] + this.comparer.compare(null, s2.get(j - 1));
+				double diag = matrix[i - 1][j - 1] + this.comparer.compare(s1.get(i - 1), s2.get(j - 1));
 				matrix[i][j] = Math.max(left, Math.max(up, diag));
 				if (max < matrix[i][j])
 					max = matrix[i][j];
