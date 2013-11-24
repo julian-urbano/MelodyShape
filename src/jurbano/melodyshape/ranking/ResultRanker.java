@@ -35,7 +35,7 @@ public interface ResultRanker
 	public String getName();
 	
 	/**
-	 * Ranks the specified list of {@link Result}s for the specified query
+	 * Ranks the top {@code k} {@link Result}s for the specified query
 	 * {@link Melody}. Results are ranked in decreasing order of similarity to
 	 * the query.
 	 * 
@@ -43,6 +43,8 @@ public interface ResultRanker
 	 *            the query that originated the results.
 	 * @param results
 	 *            the unranked list of results.
+	 * @param k
+	 *            the cutoff.
 	 */
-	public void rank(Melody query, Result[] results);
+	public void rank(Melody query, Result[] results, int k);
 }

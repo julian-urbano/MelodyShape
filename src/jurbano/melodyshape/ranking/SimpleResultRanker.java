@@ -44,7 +44,10 @@ public class SimpleResultRanker implements ResultRanker
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void rank(final Melody query, Result[] results) {
+	public void rank(final Melody query, Result[] results, int k) {
+		// We can ignore k, still need to sort them all to get the top k.
+		// We could keep the top k as we go down, and update if the current
+		// result is better, but it's just not worth it
 		Arrays.sort(results, new Comparator<Result>() {
 			@Override
 			public int compare(Result r1, Result r2) {
