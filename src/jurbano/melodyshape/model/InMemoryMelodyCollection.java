@@ -36,20 +36,8 @@ import java.util.zip.ZipFile;
  * @see Melody
  */
 public class InMemoryMelodyCollection implements MelodyCollection
-{
-	// TODO: javadoc
-	private static String filenameWithoutExtension(String f) {
-		if (f.indexOf('/') > 0)
-			f = f.substring(f.lastIndexOf('/') + 1);
-		if (f.indexOf('\\') > 0)
-			f = f.substring(f.lastIndexOf('\\') + 1);
-		if (f.indexOf('.') > 0)
-			f = f.substring(0, f.lastIndexOf('.'));
-		return f;
-	}
-	
+{	
 	protected HashMap<String, Melody> melodies;
-	protected MelodyReader melodyReader;
 	protected String name;
 	
 	/**
@@ -80,17 +68,15 @@ public class InMemoryMelodyCollection implements MelodyCollection
 	 *             if an I/O or format error occurs.
 	 */
 	public InMemoryMelodyCollection(String name, String path, MelodyReader reader) throws IOException {
-		this.name = name;
-		this.melodyReader = reader;
-		this.melodies = new HashMap<String, Melody>();
+		this(name);
 		
 		// Read all midi files
 		File file = new File(path);
 		if (file.isDirectory()) {
 			// it's a directory
 			for (File f : file.listFiles(reader)) {
-				String id = filenameWithoutExtension(f.getName());
-				Melody m = this.melodyReader.read(id, f.getAbsolutePath());
+				String id = f.getName();
+				Melody m = reader.read(id, f.getAbsolutePath());
 				this.melodies.put(m.getId(), m);
 			}
 		} else if (file.getName().toLowerCase().endsWith(".zip")) {
@@ -100,15 +86,41 @@ public class InMemoryMelodyCollection implements MelodyCollection
 			while (entries.hasMoreElements()) {
 				ZipEntry e = entries.nextElement();
 				if (!e.isDirectory() && reader.accept(null, e.getName())) {
-					String id = filenameWithoutExtension(e.getName());
+					String id = e.getName();
 					InputStream inStream = zip.getInputStream(e);
-					Melody m = this.melodyReader.read(id, inStream);
+					Melody m = reader.read(id, inStream);
 					this.melodies.put(m.getId(), m);
 					inStream.close();
 				}
 			}
 			zip.close();
 		}
+	}
+	
+	/**
+	 * Constructs a new and empty {@code InMemoryMelodyCollection}.
+	 * 
+	 * @param name the name of the collection.
+	 */
+	public InMemoryMelodyCollection(String name) {
+		this.name = name;
+		this.melodies = new HashMap<String, Melody>();
+	}
+	
+	/**
+	 * Adds a {@link Melody} to the collection. If a melody already exists with
+	 * the same ID, no changes are made.
+	 * 
+	 * @param m
+	 *            the melody to add.
+	 * @return {@code false} if there already is a melody with the same ID, or
+	 *         {@code true} if not.
+	 */
+	public boolean add(Melody m) {
+		if (this.melodies.containsKey(m.getId()))
+			return false;
+		this.melodies.put(m.getId(), m);
+		return true;
 	}
 	
 	/**
