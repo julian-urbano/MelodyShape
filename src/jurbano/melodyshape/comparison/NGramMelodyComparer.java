@@ -60,7 +60,7 @@ public class NGramMelodyComparer implements MelodyComparer
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @reutn the {@link String} {@code "nGram(length,aligner)"}.
+	 * @return the {@link String} {@code "nGram(length,aligner)"}.
 	 */
 	@Override
 	public String getName() {

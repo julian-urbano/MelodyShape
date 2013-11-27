@@ -23,7 +23,6 @@ import jurbano.melodyshape.model.Melody;
  * 
  * @author Julián Urbano
  * @see Melody
- * @see Algorithm
  */
 public class Result
 {

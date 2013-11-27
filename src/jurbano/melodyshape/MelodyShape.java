@@ -350,14 +350,14 @@ public class MelodyShape
 	 *            the verbosing level.
 	 * @param tOpt
 	 *            the number of threads to use.
-	 * @return
+	 * @return the array of results, not necessarily sorted by similarity.
 	 */
 	static Result[] runQuery(final MelodyComparer melodyCmp, final Melody query, final Iterable<Melody> coll, final int collSize,
 			final int numQuery, final int totalQueries, final int vOpt, int tOpt) {
 		// Create one callable per melody
 		ArrayList<Callable<Result>> callables = new ArrayList<>(collSize);
 		CountDownLatch latch = new CountDownLatch(collSize);
-		
+
 		if (vOpt == 1)
 			System.err.print("(" + numQuery + "/" + totalQueries + ") " + query.getId() + "...");
 		

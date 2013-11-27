@@ -75,9 +75,10 @@ public class BSplineShapeNGramComparer implements NGramComparer
 	public String getName() {
 		return "BSplineShape(" + this.dMax + "," + this.dMed + "," + this.dMin + ")";
 	}
-	
-	// TODO: CAREFUL HERE WITH CACHES, THE ORDER OF CONDITION CHECKING DIFFERS
-	// FROM THE CACHED RESULTS
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public double compare(NGram g1, NGram g2) {
 		if (g1 == null)
@@ -98,11 +99,42 @@ public class BSplineShapeNGramComparer implements NGramComparer
 		}
 		PolynomialFunction p1_ = p1.polynomialDerivative();
 		PolynomialFunction p2_ = p2.polynomialDerivative();
+		
+		/*
+		double p1_0 = Math.signum(p1_.value(0));
+		double p1_1 = Math.signum(p1_.value(1));
+		double p2_0 = Math.signum(p2_.value(0));
+		double p2_1 = Math.signum(p2_.value(1));
+		
+		if(p1_0 == p2_0){ // same at 0
+			if(p1_1 == p2_1) // same at 1
+				return -this.dMin;
+			else if(p1_1*p2_1<0) // opposite at 1
+				return -this.dMed;
+			else // some flat at 1
+				return -this.dMed;
+		}else if(p1_0*p2_0 < 0) { // opposite at 0
+			if(p1_1 == p2_1) // same at 1
+				return -this.dMed;
+			else if(p1_1*p2_1<0) // opposite at 1
+				return -this.dMax;
+			else // some flat at 1
+				return -this.dMax;
+		}else { // some flat at 0
+			if(p1_1 == p2_1) // same at 1
+				return -this.dMed;
+			else if(p1_1*p2_1<0) // opposite at 1
+				return -this.dMax;
+			else // some flat at 1
+				return -this.dMax;
+		}*/		
+		
 		double p1_0 = p1_.value(0);
 		double p1_1 = p1_.value(1);
 		double p2_0 = p2_.value(0);
 		double p2_1 = p2_.value(1);
 		
+		// TODO: this similarity function is not symmetric
 		if (p1_0 <= 0 && p1_1 >= 0) { // p1 is \/
 			if (p2_0 <= 0 && p2_1 >= 0) // p2 is \/
 				return -this.dMin;
