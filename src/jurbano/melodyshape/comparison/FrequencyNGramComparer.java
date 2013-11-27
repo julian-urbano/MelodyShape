@@ -139,11 +139,13 @@ public class FrequencyNGramComparer implements NGramComparer
 		}
 	}
 	
-	// TODO: javadoc
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * 
+	 * @return {@code -(1-f)} if either {@link NGram} is {@code null},
+	 *         {@code (1-f)} if they are the same, and the (dis)similarity
+	 *         returned by the underlying {@link NGramComparer} if they are
+	 *         different. 
 	 */
 	@Override
 	public double compare(NGram n1, NGram n2) {

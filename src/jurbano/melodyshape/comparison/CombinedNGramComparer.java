@@ -36,18 +36,18 @@ public class CombinedNGramComparer implements NGramComparer
 	 * 
 	 * @param comparer1
 	 *            the first comparer to combine.
-	 * @param comparer2
-	 *            the second comparer to combine.
 	 * @param w_1
 	 *            the weight for the first comparer's scores.
-	 * @param w_2
-	 *            the weight for the second comparer's score.
 	 * @param mu_1
 	 *            the average score returned by the first comparer.
+	 * @param comparer2
+	 *            the second comparer to combine.
+	 * @param w_2
+	 *            the weight for the second comparer's score.
 	 * @param mu_2
 	 *            the average score returned by the second comparer.
 	 */
-	public CombinedNGramComparer(NGramComparer comparer1, NGramComparer comparer2, double w_1, double w_2, double mu_1, double mu_2) {
+	public CombinedNGramComparer(NGramComparer comparer1, double w_1, double mu_1, NGramComparer comparer2, double w_2, double mu_2) {
 		if (w_1 == 0 && w_2 == 0)
 			throw new IllegalArgumentException("Weights w_1 and w_t cannot both be zero");
 		
