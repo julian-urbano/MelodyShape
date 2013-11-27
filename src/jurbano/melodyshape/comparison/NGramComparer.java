@@ -15,7 +15,7 @@
 
 package jurbano.melodyshape.comparison;
 
-import jurbano.melodyshape.alignment.MelodyAligner;
+import jurbano.melodyshape.comparison.alignment.MelodyAligner;
 
 /**
  * A function that computes a similarity score between two {@link NGram}

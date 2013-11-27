@@ -17,7 +17,7 @@ package jurbano.melodyshape.comparison;
 
 import java.util.ArrayList;
 
-import jurbano.melodyshape.alignment.MelodyAligner;
+import jurbano.melodyshape.comparison.alignment.MelodyAligner;
 import jurbano.melodyshape.model.Melody;
 
 /**

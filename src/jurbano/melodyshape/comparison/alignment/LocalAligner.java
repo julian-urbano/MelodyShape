@@ -13,52 +13,43 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 
-package jurbano.melodyshape.alignment;
+package jurbano.melodyshape.comparison.alignment;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import jurbano.melodyshape.comparison.NGram;
 import jurbano.melodyshape.comparison.NGramComparer;
 
 /**
- * An implementation of a hybrid alignment algorithm for sequences of
- * {@link NGram}s.
- * <p>
- * Like a global alignment algorithm, it penalizes changes at the beginning of
- * sequences, but the final alignment score is the maximum intermediate score
- * found in the alignment table. Thus, it does not penalize changes at the end
- * of sequences.
+ * An implementation of the Smith-Waterman alignment algorithm for sequences of {@link NGram}s.
  * 
  * @author Julián Urbano
  * @see NGram
  * @see NGramComparer
  */
-public class HybridAligner implements MelodyAligner
-{
+public class LocalAligner implements MelodyAligner
+{	
 	protected NGramComparer comparer;
-	
+		
 	/**
-	 * Constructs a new {@code HybridAligner} with the specified
-	 * {@link NGramComparer}.
+	 * Constructs a new {@code LocalAligner} with the specified {@link NGramComparer}. 
 	 * 
-	 * @param comparer
-	 *            the n-gram comparer to use.
+	 * @param comparer the n-gram comparer to use.
 	 */
-	public HybridAligner(NGramComparer comparer) {
+	public LocalAligner(NGramComparer comparer) {
 		this.comparer = comparer;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @return the {@link String} {@code "Hybrid(comparer)"}, where
+	 * @return the {@link String} {@code "Local(comparer)"}, where
 	 *         {@code comparer} is the name of the underlying
 	 *         {@link NGramComparer}.
 	 */
 	@Override
 	public String getName() {
-		return "Hybrid("+this.comparer.getName()+")";
+		return "Local("+this.comparer.getName()+")";
 	}
 	
 	/**
@@ -68,35 +59,16 @@ public class HybridAligner implements MelodyAligner
 	public double align(ArrayList<NGram> s1, ArrayList<NGram> s2) {
 		double[][] matrix = new double[s1.size() + 1][s2.size() + 1];
 		
-		for (int i = 1; i <= s1.size(); i++)
-			matrix[i][0] = matrix[i - 1][0] + this.comparer.compare(s1.get(i - 1), null);
-		for (int j = 1; j <= s2.size(); j++)
-			matrix[0][j] = matrix[0][j - 1] + this.comparer.compare(null, s2.get(j - 1));
-		
-		double max = Double.NEGATIVE_INFINITY;
 		for (int i = 1; i <= s1.size(); i++) {
 			for (int j = 1; j <= s2.size(); j++) {
 				double left = matrix[i - 1][j] + this.comparer.compare(s1.get(i - 1), null);
 				double up = matrix[i][j - 1] + this.comparer.compare(null, s2.get(j - 1));
 				double diag = matrix[i - 1][j - 1] + this.comparer.compare(s1.get(i - 1), s2.get(j - 1));
-				matrix[i][j] = Math.max(left, Math.max(up, diag));
-				if (max < matrix[i][j])
-					max = matrix[i][j];
+				matrix[i][j] = Math.max(0, Math.max(left, Math.max(up, diag)));
 			}
 		}
 		
-		return max / Math.min(s1.size(), s2.size());// TODO: move normalization
-													// to algorithm? local and
-													// global are not
-													// normalized.
+		return matrix[s1.size()][s2.size()];
 	}
-	public static void print(double[][] matrix) {
-		DecimalFormat df = new DecimalFormat("#.###");
-		for(double[] row : matrix) {
-			for(double col:row)
-				System.out.print(df.format(col)+"\t");
-			System.out.println();
-		}
-		
-	}
+	
 }
