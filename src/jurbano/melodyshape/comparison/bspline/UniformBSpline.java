@@ -24,6 +24,9 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
  */
 public interface UniformBSpline
 {
+	/**
+	 * The sets of basis functions to compute Uniform B-Splines from degrees 0 to 6.
+	 */
 	public static final PolynomialFunction[][] BASIS_FUNCTIONS = new PolynomialFunction[][]{
 		// degree 0
 		new PolynomialFunction[]{
