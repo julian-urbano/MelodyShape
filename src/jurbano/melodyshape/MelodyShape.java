@@ -49,6 +49,7 @@ import jurbano.melodyshape.ranking.Result;
 import jurbano.melodyshape.ranking.ResultRanker;
 import jurbano.melodyshape.ranking.UntieResultRanker;
 import jurbano.melodyshape.ui.ConsoleUIObserver;
+import jurbano.melodyshape.ui.GraphicalUIObserver;
 import jurbano.melodyshape.ui.UIObserver;
 
 public class MelodyShape
@@ -289,13 +290,17 @@ public class MelodyShape
 	 * @param args
 	 */
 	public static void main(String[] args) {	
-		args = new String[]{
+		/*args = new String[]{
 				"-q", "M:\\Research\\MIREX\\2011",
 				"-c", "M:\\Research\\MIREX\\2011\\midi",
 				"-a", "2012-shapeh",
 				"-v", "-k", "10", "-h"
-		};
-		UIObserver observer = new ConsoleUIObserver(args);
+		};*/
+		UIObserver observer = null;
+		if(args.length==0)
+			observer = new GraphicalUIObserver();
+		else
+			observer = new ConsoleUIObserver(args);
 		observer.start();
 	}
 }
