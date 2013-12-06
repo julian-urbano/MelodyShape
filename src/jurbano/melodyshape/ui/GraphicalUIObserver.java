@@ -11,6 +11,8 @@ import javax.swing.SwingConstants;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 
 import jurbano.melodyshape.MelodyShape;
 import jurbano.melodyshape.comparison.MelodyComparer;
@@ -24,6 +26,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+
 import java.awt.Toolkit;
 import java.io.File;
 import java.util.ArrayList;
@@ -44,6 +47,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JMenuItem;
+import javax.swing.JMenuBar;
 
 @SuppressWarnings("serial")
 public class GraphicalUIObserver extends JFrame implements UIObserver {
@@ -70,6 +74,7 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 	protected JScrollPane scrollPane;
 	protected JPopupMenu popupMenu;
 	protected JMenuItem mntmCopyAll;
+	protected JMenuItem mntmNewMenuItem;
 
 	public GraphicalUIObserver() {
 		setResizable(false);
@@ -185,7 +190,7 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 										}
 										textAreaResults.setText(textAreaResults.getText() + text.toString());
 									}
-								} catch (RuntimeException ex) {
+								} catch (Exception ex) {
 									lblStatus.setText("Execution interrupted");
 								} finally {
 									synchronized (btnRun) {
@@ -214,51 +219,51 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 			}
 		});
 		btnRun.setEnabled(false);
-		btnRun.setBounds(333, 144, 89, 47);
+		btnRun.setBounds(335, 148, 89, 47);
 		getContentPane().setLayout(null);
 
 		JLabel lblQueryProgress = new JLabel("Query progress:");
-		lblQueryProgress.setBounds(10, 147, 98, 14);
+		lblQueryProgress.setBounds(12, 151, 98, 14);
 		lblQueryProgress.setHorizontalAlignment(SwingConstants.RIGHT);
 		getContentPane().add(lblQueryProgress);
 
 		progressBarQuery = new JProgressBar();
 		progressBarQuery.setStringPainted(true);
-		progressBarQuery.setBounds(118, 144, 203, 21);
+		progressBarQuery.setBounds(120, 148, 203, 21);
 		getContentPane().add(progressBarQuery);
 		getContentPane().add(btnRun);
 
 		JLabel lblOverallProgress = new JLabel("Overall progress:");
-		lblOverallProgress.setBounds(10, 172, 98, 16);
+		lblOverallProgress.setBounds(12, 176, 98, 16);
 		lblOverallProgress.setHorizontalAlignment(SwingConstants.RIGHT);
 		getContentPane().add(lblOverallProgress);
 
 		progressBarOverall = new JProgressBar();
 		progressBarOverall.setStringPainted(true);
-		progressBarOverall.setBounds(118, 170, 203, 21);
+		progressBarOverall.setBounds(120, 174, 203, 21);
 		getContentPane().add(progressBarOverall);
 
 		textFieldQueries = new JTextField();
 		textFieldQueries.setEditable(false);
 		textFieldQueries.setEnabled(false);
-		textFieldQueries.setBounds(78, 9, 250, 20);
+		textFieldQueries.setBounds(80, 13, 250, 20);
 		getContentPane().add(textFieldQueries);
 		textFieldQueries.setColumns(10);
 
 		JLabel lblQueryFile = new JLabel("Queries:");
 		lblQueryFile.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblQueryFile.setBounds(10, 12, 59, 14);
+		lblQueryFile.setBounds(12, 16, 59, 14);
 		getContentPane().add(lblQueryFile);
 
 		JLabel lblCollection = new JLabel("Collection:");
 		lblCollection.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCollection.setBounds(10, 39, 59, 16);
+		lblCollection.setBounds(12, 43, 59, 16);
 		getContentPane().add(lblCollection);
 
 		textFieldCollection = new JTextField();
 		textFieldCollection.setEnabled(false);
 		textFieldCollection.setEditable(false);
-		textFieldCollection.setBounds(78, 37, 250, 20);
+		textFieldCollection.setBounds(80, 41, 250, 20);
 		getContentPane().add(textFieldCollection);
 		textFieldCollection.setColumns(10);
 
@@ -315,7 +320,7 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 			}
 		});
 		btnBrowseQueries.setEnabled(false);
-		btnBrowseQueries.setBounds(333, 8, 89, 23);
+		btnBrowseQueries.setBounds(335, 12, 89, 23);
 		getContentPane().add(btnBrowseQueries);
 
 		btnBrowseCollection = new JButton("Browse...");
@@ -361,12 +366,12 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 			}
 		});
 		btnBrowseCollection.setEnabled(false);
-		btnBrowseCollection.setBounds(333, 36, 89, 23);
+		btnBrowseCollection.setBounds(335, 40, 89, 23);
 		getContentPane().add(btnBrowseCollection);
 
 		JPanel panelOptions = new JPanel();
 		panelOptions.setBorder(new TitledBorder(null, "Options", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelOptions.setBounds(10, 61, 412, 75);
+		panelOptions.setBounds(12, 65, 412, 75);
 		getContentPane().add(panelOptions);
 		panelOptions.setLayout(null);
 
@@ -421,7 +426,7 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 
 		JPanel panelResults = new JPanel();
 		panelResults.setBorder(new TitledBorder(null, "Results", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelResults.setBounds(10, 197, 412, 244);
+		panelResults.setBounds(12, 201, 412, 244);
 		getContentPane().add(panelResults);
 		panelResults.setLayout(null);
 		
@@ -456,8 +461,21 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 
 		this.lblStatus = new JLabel("Select query files first");
 		this.lblStatus.setEnabled(false);
-		this.lblStatus.setBounds(10, 446, 412, 14);
+		this.lblStatus.setBounds(12, 450, 353, 14);
 		getContentPane().add(this.lblStatus);
+		
+		this.mntmNewMenuItem = new JMenuItem("About...");
+		this.mntmNewMenuItem.setBounds(370, 449, 54, 21);
+		getContentPane().add(this.mntmNewMenuItem);
+		this.mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(GraphicalUIObserver.this, "MelodyShape " + MelodyShape.VERSION
+						+ "  Copyright (C) 2013  Julian Urbano <urbano.julian@gmail.com>\n\n"
+						+ "This program comes with ABSOLUTELY NO WARRANTY.\n"
+						+ "This is free software, and you are welcome to redistribute it\n"
+						+ "under the terms of the GNU General Public License version 3.");
+			}
+		});
 	}
 
 	@Override
@@ -468,7 +486,7 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 		this.thread = null;
 		this.running = false;
 
-		this.setSize(440, 495);
+		this.setSize(440, 498);
 		this.btnBrowseQueries.setEnabled(true);
 		this.setVisible(true);
 	}
