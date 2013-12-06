@@ -1,5 +1,7 @@
 package jurbano.melodyshape.ui;
 
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -29,12 +31,23 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.Toolkit;
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JTextArea;
 
 import java.awt.Font;
@@ -48,6 +61,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
+import javax.swing.JFormattedTextField;
 
 @SuppressWarnings("serial")
 public class GraphicalUIObserver extends JFrame implements UIObserver {
@@ -413,11 +427,42 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 		panelOptions.add(chckbxCutoff);
 
 		textFieldCutoff = new JTextField();
+		this.textFieldCutoff.setEnabled(false);
 		this.textFieldCutoff.setText("10");
-		textFieldCutoff.setEnabled(false);
 		textFieldCutoff.setBounds(275, 19, 125, 20);
+		textFieldCutoff.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				check();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				check();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				check();
+			}
+
+			protected void check() {
+				String text = textFieldCutoff.getText();
+				try {
+					int k = Integer.parseInt(text);
+					if (k > 0) {
+						btnRun.setEnabled(true);
+					} else {
+						Toolkit.getDefaultToolkit().beep();
+						btnRun.setEnabled(false);
+					}
+				} catch (NumberFormatException ex) {
+					Toolkit.getDefaultToolkit().beep();
+					btnRun.setEnabled(false);
+				}
+			}
+		});
 		panelOptions.add(textFieldCutoff);
-		textFieldCutoff.setColumns(10);
 
 		chckbxSingleLineMode = new JCheckBox("Single line mode");
 		chckbxSingleLineMode.setEnabled(false);
@@ -429,27 +474,28 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 		panelResults.setBounds(12, 201, 412, 244);
 		getContentPane().add(panelResults);
 		panelResults.setLayout(null);
-		
+
 		this.scrollPane = new JScrollPane();
 		this.scrollPane.setBounds(12, 22, 388, 210);
 		panelResults.add(this.scrollPane);
-		
-				this.textAreaResults = new JTextArea();
-				this.scrollPane.setViewportView(this.textAreaResults);
-				this.textAreaResults.setFont(new Font("Courier New", Font.PLAIN, 12));
-				this.textAreaResults.setTabSize(4);
-				this.textAreaResults.setEditable(false);
-				
-				this.popupMenu = new JPopupMenu();
-				addPopup(this.textAreaResults, this.popupMenu);
-				
-				this.mntmCopyAll = new JMenuItem("Copy All");
-				this.mntmCopyAll.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(textAreaResults.getText()), null);
-					}
-				});
-				this.popupMenu.add(this.mntmCopyAll);
+
+		this.textAreaResults = new JTextArea();
+		this.scrollPane.setViewportView(this.textAreaResults);
+		this.textAreaResults.setFont(new Font("Courier New", Font.PLAIN, 12));
+		this.textAreaResults.setTabSize(4);
+		this.textAreaResults.setEditable(false);
+
+		this.popupMenu = new JPopupMenu();
+		addPopup(this.textAreaResults, this.popupMenu);
+
+		this.mntmCopyAll = new JMenuItem("Copy All");
+		this.mntmCopyAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Toolkit.getDefaultToolkit().getSystemClipboard()
+						.setContents(new StringSelection(textAreaResults.getText()), null);
+			}
+		});
+		this.popupMenu.add(this.mntmCopyAll);
 
 		for (String alg : MelodyShape.ALGORITHMS)
 			comboBoxAlgorithms.addItem(alg);
@@ -463,7 +509,7 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 		this.lblStatus.setEnabled(false);
 		this.lblStatus.setBounds(12, 450, 353, 14);
 		getContentPane().add(this.lblStatus);
-		
+
 		this.mntmNewMenuItem = new JMenuItem("About...");
 		this.mntmNewMenuItem.setBounds(370, 449, 54, 21);
 		getContentPane().add(this.mntmNewMenuItem);
@@ -504,6 +550,7 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 		// TODO Auto-generated method stub
 
 	}
+
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -511,11 +558,13 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 					showMenu(e);
 				}
 			}
+
 			public void mouseReleased(MouseEvent e) {
 				if (e.isPopupTrigger()) {
 					showMenu(e);
 				}
 			}
+
 			private void showMenu(MouseEvent e) {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}

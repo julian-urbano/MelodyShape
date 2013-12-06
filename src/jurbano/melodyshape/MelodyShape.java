@@ -300,11 +300,12 @@ public class MelodyShape
 		 * "M:\\Research\\MIREX\\2011\\midi", "-a", "2012-shapeh", "-v", "-k",
 		 * "10", "-h" };
 		 */
+		//args=new String[]{"-gui"};
 		UIObserver observer = null;
 		for (String arg : args)
 			if (arg.equals("-gui"))
 				observer = new GraphicalUIObserver();
-
+if(observer==null)
 		observer = new ConsoleUIObserver(args);
 		observer.start();
 	}
