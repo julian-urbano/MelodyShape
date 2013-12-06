@@ -241,13 +241,17 @@ public class MelodyShape
 	 * @param observer
 	 *            the user interface observe to notify of progress.
 	 * @return the array of results, not necessarily sorted by similarity.
+	 * @throws RuntimeException
+	 *             if there is some error or an {@link InterruptedException} is
+	 *             received.
 	 */
 	public static Result[] runComparer(final MelodyComparer melodyCmp, final Melody query, final Iterable<Melody> coll,
-			final int collSize, final int numQuery, final int totalQueries, int tOpt, final UIObserver observer) {		
+			final int collSize, final int numQuery, final int totalQueries, int tOpt, final UIObserver observer)
+			throws RuntimeException {
 		// Create one callable per melody
 		ArrayList<Callable<Result>> callables = new ArrayList<>(collSize);
 		CountDownLatch latch = new CountDownLatch(collSize);
-		
+
 		for (final Melody m : coll) {
 			callables.add(new Callable<Result>() {
 				CountDownLatch latch;
@@ -281,6 +285,7 @@ public class MelodyShape
 				res[i] = futures.get(i).get();
 			service.shutdown();
 		} catch (InterruptedException | ExecutionException ex) {
+			service.shutdownNow();
 			throw new RuntimeException(ex);
 		}
 		return res;
