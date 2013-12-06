@@ -100,6 +100,7 @@ public class ConsoleUIObserver implements UIObserver {
 		this.options.addOption(OptionBuilder.withDescription("verbose, to stderr.").create("v"));
 		this.options.addOption(OptionBuilder.withDescription("verbose a lot, to stderr.").create("vv"));
 		this.options.addOption(OptionBuilder.withDescription("show this help message.").create("h"));
+		this.options.addOption(OptionBuilder.withDescription("run with graphical user interface.").create("gui"));
 	}
 
 	/**
@@ -331,7 +332,7 @@ public class ConsoleUIObserver implements UIObserver {
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.setOptionComparator(new Comparator<Option>() {
 			public int compare(Option o1, Option o2) {
-				List<String> options = Arrays.asList("q", "c", "a", "k", "l", "t", "v", "vv", "h");
+				List<String> options = Arrays.asList("q", "c", "a", "k", "l", "t", "v", "vv", "gui", "h");
 
 				return Integer.compare(options.indexOf(o1.getOpt()), options.indexOf(o2.getOpt()));
 			}

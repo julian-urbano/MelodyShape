@@ -294,18 +294,18 @@ public class MelodyShape
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {	
-		/*args = new String[]{
-				"-q", "M:\\Research\\MIREX\\2011",
-				"-c", "M:\\Research\\MIREX\\2011\\midi",
-				"-a", "2012-shapeh",
-				"-v", "-k", "10", "-h"
-		};*/
+	public static void main(String[] args) {
+		/*
+		 * args = new String[]{ "-q", "M:\\Research\\MIREX\\2011", "-c",
+		 * "M:\\Research\\MIREX\\2011\\midi", "-a", "2012-shapeh", "-v", "-k",
+		 * "10", "-h" };
+		 */
 		UIObserver observer = null;
-		if(args.length==0)
-			observer = new GraphicalUIObserver();
-		else
-			observer = new ConsoleUIObserver(args);
+		for (String arg : args)
+			if (arg.equals("-gui"))
+				observer = new GraphicalUIObserver();
+
+		observer = new ConsoleUIObserver(args);
 		observer.start();
 	}
 }
