@@ -47,20 +47,22 @@ public class NGram extends ArrayList<Note>
 	 * Gets the sequence of {@code n}-grams, each containing {@code n}
 	 * {@link Note} objects, from the {@link Melody} specified.
 	 * 
+	 * @param m
+	 *            the melody.
 	 * @param n
 	 *            the length of the n-grams.
 	 * @return the sequence of {@code n}-grams.
 	 */
 	public static ArrayList<NGram> getNGrams(Melody m, int n) {
 		ArrayList<NGram> list = new ArrayList<NGram>();
-		
+
 		for (int i = 0; i <= m.size() - n; i++) {
 			NGram gram = new NGram();
 			for (int j = 0; j < n; j++)
 				gram.add(m.get(i + j));
 			list.add(gram);
 		}
-		
+
 		return list;
 	}
 	

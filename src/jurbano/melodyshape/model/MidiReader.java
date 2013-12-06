@@ -133,6 +133,6 @@ public class MidiReader implements MelodyReader
 	 */
 	@Override
 	public boolean accept(File dir, String name) {
-		return name.endsWith(".mid") || name.endsWith(".midi");
+		return name.toLowerCase().endsWith(".mid") || name.toLowerCase().endsWith(".midi");
 	}
 }

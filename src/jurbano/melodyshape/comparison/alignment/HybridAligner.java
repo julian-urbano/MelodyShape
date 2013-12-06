@@ -15,7 +15,6 @@
 
 package jurbano.melodyshape.comparison.alignment;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import jurbano.melodyshape.comparison.NGram;
@@ -89,14 +88,5 @@ public class HybridAligner implements MelodyAligner
 													// to algorithm? local and
 													// global are not
 													// normalized.
-	}
-	public static void print(double[][] matrix) {
-		DecimalFormat df = new DecimalFormat("#.###");
-		for(double[] row : matrix) {
-			for(double col:row)
-				System.out.print(df.format(col)+"\t");
-			System.out.println();
-		}
-		
 	}
 }

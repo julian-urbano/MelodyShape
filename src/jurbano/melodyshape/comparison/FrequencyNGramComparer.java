@@ -25,13 +25,21 @@ import java.util.HashMap;
 import jurbano.melodyshape.model.Melody;
 import jurbano.melodyshape.model.MelodyCollection;
 
-public class FrequencyNGramComparer implements NGramComparer
-{
+/**
+ * A similarity function between two {@link NGram} objects that uses a second
+ * {@link NGramComparer} for mismatches and the frequency of n-grams in the
+ * collection for insertions, deletions and matches.
+ * 
+ * @author Julián Urbano
+ * @see NGram
+ * @see NGramComparer
+ */
+public class FrequencyNGramComparer implements NGramComparer {
 	protected HashMap<String, Long> nGramCounts;
 	protected long nGramCountSum;
-	
+
 	protected NGramComparer mismatchComparer;
-	
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -43,7 +51,7 @@ public class FrequencyNGramComparer implements NGramComparer
 	public String getName() {
 		return "Freq(" + this.mismatchComparer.getName() + ")";
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -51,7 +59,7 @@ public class FrequencyNGramComparer implements NGramComparer
 	public String getNGramId(NGram g) {
 		return this.mismatchComparer.getNGramId(g);
 	}
-	
+
 	/**
 	 * Constructs a new {@code FrequencyNGramComparer} for the specified
 	 * {@link MelodyCollection} and using the specified
@@ -69,7 +77,7 @@ public class FrequencyNGramComparer implements NGramComparer
 		this.mismatchComparer = mismatchComparer;
 		this.nGramCounts = new HashMap<String, Long>();
 		this.nGramCountSum = 0;
-		
+
 		for (Melody m : coll) {
 			for (NGram n : NGram.getNGrams(m, nGramLength)) {
 				String nGramId = this.getNGramId(n);
@@ -82,7 +90,7 @@ public class FrequencyNGramComparer implements NGramComparer
 			}
 		}
 	}
-	
+
 	/**
 	 * Constructs a new {@code FrequencyNGramComparer} for the specified
 	 * {@link NGramMelodyComparer} reading n-gram frequencies from a file.
@@ -98,7 +106,7 @@ public class FrequencyNGramComparer implements NGramComparer
 	 */
 	public FrequencyNGramComparer(String statsPath, NGramComparer mismatchComparer) throws IOException {
 		this.mismatchComparer = mismatchComparer;
-		
+
 		ObjectInputStream objStream = null;
 		try {
 			objStream = new ObjectInputStream(new FileInputStream(statsPath));
@@ -115,7 +123,7 @@ public class FrequencyNGramComparer implements NGramComparer
 				objStream.close();
 		}
 	}
-	
+
 	/**
 	 * Saves the frequency of all n-grams in this {@code FrequencyNGramComparer}
 	 * to the specified file.
@@ -138,14 +146,14 @@ public class FrequencyNGramComparer implements NGramComparer
 				objStream.close();
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * 
 	 * @return {@code -(1-f)} if either {@link NGram} is {@code null},
 	 *         {@code (1-f)} if they are the same, and the (dis)similarity
 	 *         returned by the underlying {@link NGramComparer} if they are
-	 *         different. 
+	 *         different.
 	 */
 	@Override
 	public double compare(NGram n1, NGram n2) {
@@ -170,10 +178,10 @@ public class FrequencyNGramComparer implements NGramComparer
 			else
 				return 1.0d - freq.doubleValue() / this.nGramCountSum;
 		}
-		
+
 		return this.mismatchComparer.compare(n1, n2);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Freq(" + this.mismatchComparer.getName() + ")[count=" + nGramCounts.size() + ", countSum=" + nGramCountSum + "]";
