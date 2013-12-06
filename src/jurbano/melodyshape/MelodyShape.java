@@ -15,6 +15,7 @@
 
 package jurbano.melodyshape;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class MelodyShape
 	/**
 	 * The release version number.
 	 */
-	public static String VERSION = "1.0";
+	public static String VERSION = "1.1";
 	/**
 	 * The list of algorithms available in the release.
 	 */
@@ -295,18 +296,21 @@ public class MelodyShape
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		/*
-		 * args = new String[]{ "-q", "M:\\Research\\MIREX\\2011", "-c",
-		 * "M:\\Research\\MIREX\\2011\\midi", "-a", "2012-shapeh", "-v", "-k",
-		 * "10", "-h" };
-		 */
-		//args=new String[]{"-gui"};
 		UIObserver observer = null;
+		
+		// if -gui is present, run graphical ui
 		for (String arg : args)
 			if (arg.equals("-gui"))
 				observer = new GraphicalUIObserver();
-if(observer==null)
-		observer = new ConsoleUIObserver(args);
+		
+		if(observer==null){
+			Console c = System.console();
+			// if there is no console, run graphical ui, otherwise console ui
+			if(c==null)
+				observer=new GraphicalUIObserver();
+			else
+				observer = new ConsoleUIObserver(args);
+		}
 		observer.start();
 	}
 }

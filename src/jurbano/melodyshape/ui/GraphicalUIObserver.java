@@ -1,7 +1,5 @@
 package jurbano.melodyshape.ui;
 
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -13,9 +11,6 @@ import javax.swing.SwingConstants;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-
 import jurbano.melodyshape.MelodyShape;
 import jurbano.melodyshape.comparison.MelodyComparer;
 import jurbano.melodyshape.model.Melody;
@@ -31,12 +26,6 @@ import javax.swing.border.TitledBorder;
 
 import java.awt.Toolkit;
 import java.io.File;
-import java.text.DecimalFormat;
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -44,10 +33,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.text.MaskFormatter;
 import javax.swing.JTextArea;
 
 import java.awt.Font;
@@ -60,8 +46,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JMenuItem;
-import javax.swing.JMenuBar;
-import javax.swing.JFormattedTextField;
 
 @SuppressWarnings("serial")
 public class GraphicalUIObserver extends JFrame implements UIObserver {
