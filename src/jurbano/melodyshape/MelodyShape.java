@@ -303,13 +303,13 @@ public class MelodyShape
 			if (arg.equals("-gui"))
 				observer = new GraphicalUIObserver();
 		
-		if(observer==null){
-			Console c = System.console();
-			// if there is no console, run graphical ui, otherwise console ui
-			if(c==null)
-				observer=new GraphicalUIObserver();
-			else
-				observer = new ConsoleUIObserver(args);
+		if(observer==null){			
+			try{
+				System.in.available(); // throws if not in console
+				observer=new ConsoleUIObserver(args);
+			}catch(Exception ex){
+				observer = new GraphicalUIObserver();
+			}
 		}
 		observer.start();
 	}
