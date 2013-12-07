@@ -7,6 +7,6 @@
         </javadoc>
     </target>
 	<target name="javadoc-jar" depends="javadoc" description="build javadoc jar">
-	    <jar compress="true" destfile="melodyshape-1.0-javadoc.jar" basedir="doc" />
+	    <jar compress="true" destfile="melodyshape-1.1-javadoc.jar" basedir="doc" />
 	</target>
 </project>
