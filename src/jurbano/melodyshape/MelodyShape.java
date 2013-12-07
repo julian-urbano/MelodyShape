@@ -205,7 +205,7 @@ public class MelodyShape
 
 		if (melodyCmpRerank!=null && rankerRerank!=null) {
 			// Get top results with score as large as the k-th (can be more than k due to ties)
-			double kScore = results[Math.min(kOpt, results.length)].getScore();
+			double kScore = results[Math.min(kOpt, results.length) - 1].getScore();
 			ArrayList<Melody> melodiesRerank = new ArrayList<Melody>();
 			for (int k = 0; k < results.length; k++)
 				if (results[k].getScore() >= kScore)
