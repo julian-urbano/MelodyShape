@@ -30,11 +30,12 @@ MelodyShape can be run both as a graphical user interface and as a command line 
 	This is free software, and you are welcome to redistribute it
 	under the terms of the GNU General Public License version 3.
 
+A detailed user manual in PDF is available from the [releases page](https://github.com/julian-urbano/MelodyShape/releases).
+
 Dependencies
 ------------
 
 * The MelodyShape library uses the [Math library](http://commons.apache.org/proper/commons-math/) from Apache Commons.
-
 * The command line tool uses the [CLI library](http://commons.apache.org/proper/commons-cli/) from Apache Commons.
 
 Current Version
