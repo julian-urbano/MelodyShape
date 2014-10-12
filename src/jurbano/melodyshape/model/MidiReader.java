@@ -78,12 +78,14 @@ public class MidiReader implements MelodyReader
 				
 				// A note_on with velocity=0 will be treated like a note_off
 				if (sm.getCommand() == ShortMessage.NOTE_ON && velocity != 0) {
-					if (lastPitch != -1)
-						throw new IOException("Several notes at time " + time);
-					else {
-						lastOn = time;
-						lastPitch = pitch;
+					if (lastPitch != -1){
+						// Relax polyphony constraint: a note_on always stops the previous note too (like a note_off)
+						//throw new IOException("Several notes at time " + time);
+						Note n = new Note((byte) pitch, lastOff, time - lastOn, (double) (lastOn - lastOff) / (time - lastOff));
+						m.add(n);
 					}
+					lastOn = time;
+					lastPitch = pitch;
 				} else if (sm.getCommand() == ShortMessage.NOTE_OFF || (sm.getCommand() == ShortMessage.NOTE_ON && velocity == 0)) {
 					if (lastPitch != -1) {
 						Note n = new Note((byte) pitch, lastOff, time - lastOn, (double) (lastOn - lastOff) / (time - lastOff));
