@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+	<property name="melodyshape-version" value="1.1" />
+
+	<target name="jar">
+		<delete file="melodyshape-${melodyshape-version}.jar" />
+	    <jar destfile="melodyshape-${melodyshape-version}.jar" basedir="bin" excludes="jurbano/melodyshape/Mirex.class">
+	    	<metainf file="LICENSE.txt" />
+	    	<manifest>
+	    		<attribute name="Main-Class" value="jurbano.melodyshape.MelodyShape" />
+	    		<attribute name="Class-Path" value="commons-cli-1.2.jar commons-math3-3.2.jar" />
+	    	</manifest>
+	    </jar>
+	</target>
+	<target name="javadoc-jar">
+		<delete dir="doc" />
+		<delete file="melodyshape-${melodyshape-version}-javadoc.jar" />
+        <javadoc access="public" author="true" classpath="lib/commons-cli-1.2.jar;lib/commons-math3-3.2.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" source="1.7" sourcepath="src" splitindex="true" use="true" version="true">
+            <link href="http://download.oracle.com/javase/7/docs/api/"/>
+        </javadoc>
+	    <jar compress="true" destfile="melodyshape-${melodyshape-version}-javadoc.jar" basedir="doc" />
+	</target>
+</project>

@@ -1,0 +1,9 @@
+MelodyShape 1.1, 07-Dec-2013
+============================
+* Separated execution logic from user interface.
++ Added graphical user interface.
+* Fixed minor bug re-ranking results in 201x-shapetime algorithms.
+
+MelodyShape 1.0, 04-Dec-2013
+============================
++ Initial release.
