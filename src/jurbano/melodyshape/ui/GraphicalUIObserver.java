@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import jurbano.melodyshape.MelodyShape;
 import jurbano.melodyshape.comparison.MelodyComparer;
 import jurbano.melodyshape.model.Melody;
@@ -47,6 +48,12 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JMenuItem;
 
+/**
+ * Runs an algorithm with options specified through a graphical user interface.
+ * 
+ * @author Julián Urbano
+ * @see UIObserver
+ */
 @SuppressWarnings("serial")
 public class GraphicalUIObserver extends JFrame implements UIObserver {
 	protected JTextField textFieldCutoff;
@@ -74,6 +81,9 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 	protected JMenuItem mntmCopyAll;
 	protected JMenuItem mntmNewMenuItem;
 
+	/**
+	 * Constructs a new {@code GraphicalUIObserver}.
+	 */
 	public GraphicalUIObserver() {
 		setResizable(false);
 		setTitle("MelodyShape v" + MelodyShape.VERSION);
@@ -123,25 +133,16 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 
 						thread = new Thread() {
 							@Override
-							public void run() {
-								MelodyComparer comparer = null;
-								ResultRanker ranker = null;
-								MelodyComparer comparerRerank = null; // for
-																		// 201x-shapetime
-								ResultRanker rankerRerank = null; // for
-																	// 201x-shapetime
+							public void run() {								
 								int kOpt = chckbxCutoff.isSelected() ? Integer.parseInt(textFieldCutoff.getText())
 										: Integer.MAX_VALUE;
+								
 								String aOpt = comboBoxAlgorithms.getSelectedItem().toString();
-								if (aOpt.equals("2012-shapetime") || aOpt.equals("2013-shapetime")) {
-									comparer = MelodyShape.getComparer("2010-shape", coll);
-									comparerRerank = MelodyShape.getComparer(aOpt, coll);
-									ranker = MelodyShape.getRanker("2010-shape", coll);
-									rankerRerank = MelodyShape.getRanker(aOpt, coll);
-								} else {
-									comparer = MelodyShape.getComparer(aOpt, coll);
-									ranker = MelodyShape.getRanker(aOpt, coll);
-								}
+								MelodyComparer comparer = MelodyShape.getMainComparer(aOpt, coll);
+								ResultRanker ranker = MelodyShape.getMainRanker(aOpt, coll);
+								MelodyComparer comparerRerank = MelodyShape.getRerankComparer(aOpt, coll); // for 201x-shapetime
+								ResultRanker rankerRerank = MelodyShape.getRerankRanker(aOpt, coll); // for 201x-shapetime
+								
 								try {
 									for (int queryNum = 0; queryNum < queries.size(); queryNum++) {
 										Melody query = queries.get(queryNum);
@@ -499,11 +500,7 @@ public class GraphicalUIObserver extends JFrame implements UIObserver {
 		getContentPane().add(this.mntmNewMenuItem);
 		this.mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(GraphicalUIObserver.this, "MelodyShape " + MelodyShape.VERSION
-						+ "  Copyright (C) 2013  Julian Urbano <urbano.julian@gmail.com>\n\n"
-						+ "This program comes with ABSOLUTELY NO WARRANTY.\n"
-						+ "This is free software, and you are welcome to redistribute it\n"
-						+ "under the terms of the GNU General Public License version 3.");
+				JOptionPane.showMessageDialog(GraphicalUIObserver.this, MelodyShape.COPYRIGHT_NOTICE);
 			}
 		});
 	}

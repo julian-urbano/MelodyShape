@@ -89,7 +89,8 @@ public class ConsoleUIObserver implements UIObserver {
 						"algorithm to run:" + "\n- 2010-domain, 2010-pitchderiv, 2010-shape"
 								+ "\n- 2011-shape, 2011-pitch, 2011-time"
 								+ "\n- 2012-shapeh, 2012-shapel, 2012-shapeg, 2012-time, 2012-shapetime"
-								+ "\n- 2013-shapeh, 2013-time, 2013-shapetime").create("a"));
+								+ "\n- 2013-shapeh, 2013-time, 2013-shapetime"
+								+ "\n- 2014-shapeh, 2014-time, 2014-shapetime").create("a"));
 		// optional arguments
 		this.options.addOption(OptionBuilder
 				.withDescription("show results in a single line (omits similarity scores).").create("l"));
@@ -142,22 +143,14 @@ public class ConsoleUIObserver implements UIObserver {
 		}
 		// algorithm
 		this.verbose(2, "Instantiating algorithm...");
-		MelodyComparer comparer = null;
-		ResultRanker ranker = null;
-		MelodyComparer comparerRerank = null; // for 201x-shapetime
-		ResultRanker rankerRerank = null; // for 201x-shapetime
-		if (this.aOpt.equals("2012-shapetime") || this.aOpt.equals("2013-shapetime")) {
-			comparer = MelodyShape.getComparer("2010-shape", coll);
-			comparerRerank = MelodyShape.getComparer(this.aOpt, coll);
-			ranker = MelodyShape.getRanker("2010-shape", coll);
-			rankerRerank = MelodyShape.getRanker(this.aOpt, coll);
-		} else {
-			comparer = MelodyShape.getComparer(this.aOpt, coll);
-			ranker = MelodyShape.getRanker(this.aOpt, coll);
-		}
+		MelodyComparer comparer = MelodyShape.getMainComparer(this.aOpt, coll);
+		ResultRanker ranker = MelodyShape.getMainRanker(this.aOpt, coll);
+		MelodyComparer comparerRerank = MelodyShape.getRerankComparer(this.aOpt, coll); // for 201x-shapetime
+		ResultRanker rankerRerank = MelodyShape.getRerankRanker(this.aOpt, coll); // for 201x-shapetime
+
 		this.verbose(2, "done.\n\n");
 		this.verbose(2, "  Comparer: " + comparer.getName() + "\n");
-		if (this.aOpt.equals("2012-shapetime") || this.aOpt.equals("2013-shapetime"))
+		if (this.aOpt.equals("2012-shapetime") || this.aOpt.equals("2013-shapetime") || this.aOpt.equals("2014-shapetime"))
 			this.verbose(2, "    Ranker: " + comparerRerank.getName() + "\n");
 		else
 			this.verbose(2, "    Ranker: " + ranker.getName() + "\n");
@@ -338,10 +331,6 @@ public class ConsoleUIObserver implements UIObserver {
 			}
 		});
 		formatter.printHelp(new PrintWriter(System.err, true), Integer.MAX_VALUE, "melodyshape-" + MelodyShape.VERSION,
-				null, options, 0, 2, "\nMelodyShape " + MelodyShape.VERSION
-						+ "  Copyright (C) 2013  Julian Urbano <urbano.julian@gmail.com>\n"
-						+ "This program comes with ABSOLUTELY NO WARRANTY.\n"
-						+ "This is free software, and you are welcome to redistribute it\n"
-						+ "under the terms of the GNU General Public License version 3.", true);
+				null, options, 0, 2, "\n" + MelodyShape.COPYRIGHT_NOTICE, true);
 	}
 }

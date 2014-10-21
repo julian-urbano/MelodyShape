@@ -15,7 +15,6 @@
 
 package jurbano.melodyshape;
 
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,6 +52,13 @@ import jurbano.melodyshape.ui.ConsoleUIObserver;
 import jurbano.melodyshape.ui.GraphicalUIObserver;
 import jurbano.melodyshape.ui.UIObserver;
 
+/**
+ * Main class of the tool. Contains all the logic to read MIDI collections,
+ * instantiate and run algorithms. Delegates presentation logic in
+ * {@code UIObserver}s.
+ * 
+ * @author Julián Urbano
+ */
 public class MelodyShape
 {
 	/**
@@ -62,13 +68,22 @@ public class MelodyShape
 	/**
 	 * The release version number.
 	 */
-	public static String VERSION = "1.1";
+	public static String VERSION = "1.2";
+	/**
+	 * The copyright notice, including date and version.
+	 */
+	public static String COPYRIGHT_NOTICE ="MelodyShape " + MelodyShape.VERSION
+			+ "  Copyright (C) 2014  Julian Urbano <urbano.julian@gmail.com>\n"
+			+ "This program comes with ABSOLUTELY NO WARRANTY.\n"
+			+ "This is free software, and you are welcome to redistribute it\n"
+			+ "under the terms of the GNU General Public License version 3.";
 	/**
 	 * The list of algorithms available in the release.
 	 */
 	public static List<String> ALGORITHMS = Arrays.asList("2010-domain", "2010-pitchderiv", "2010-shape", "2011-pitch",
 			"2011-time", "2011-shape", "2012-shapeh", "2012-shapel", "2012-shapeg", "2012-time", "2012-shapetime",
-			"2013-shapeh", "2013-time", "2013-shapetime");
+			"2013-shapeh", "2013-time", "2013-shapetime",
+			"2014-shapeh", "2014-time", "2014-shapetime");
 
 	/**
 	 * Returns the list of queries found in a path.
@@ -113,61 +128,95 @@ public class MelodyShape
 	}
 
 	/**
-	 * Returns a melody comparer given its name.
+	 * Returns a melody main comparer given its name.
 	 * 
 	 * @param name
-	 *            the name of the melody comparer.
+	 *            the name of the melody main comparer.
 	 * @param coll
 	 *            the collection of melodies to use with the comparer.
-	 * @return the melody comparer.
+	 * @return the melody main comparer.
 	 */
-	public static MelodyComparer getComparer(String name, MelodyCollection coll) {
-		if (name.equals("2010-domain"))
+	public static MelodyComparer getMainComparer(String name, MelodyCollection coll) {
+		if (Arrays.asList("2010-domain").contains(name))
 			return new NGramMelodyComparer(3, new HybridAligner(new FrequencyNGramComparer(coll, 3,
 					new IntervalPitchNGramComparer()))); // faster without cache
-		else if (name.equals("2010-pitchderiv"))
+		else if (Arrays.asList("2010-pitchderiv").contains(name))
 			return new NGramMelodyComparer(3, new HybridAligner(new CachedNGramComparer(new FrequencyNGramComparer(
 					coll, 3, new BSplinePitchNGramComparer()))));
-		else if (name.equals("2010-shape") || name.equals("2011-shape") || name.equals("2012-shapeh")
-				|| name.equals("2013-shapeh"))
+		else if (Arrays.asList("2010-shape", "2011-shape", "2012-shapeh", "2013-shapeh", "2014-shapeh",
+				"2012-shapetime", "2013-shapetime", "2014-shapetime").contains(name))
 			return new NGramMelodyComparer(3, new HybridAligner(new CachedNGramComparer(new FrequencyNGramComparer(
 					coll, 3, new BSplineShapeNGramComparer(8, 1, 0.5)))));
-		else if (name.equals("2011-pitch"))
+		else if (Arrays.asList("2011-pitch").contains(name))
 			return new NGramMelodyComparer(4, new HybridAligner(new CachedNGramComparer(new CombinedNGramComparer(
 					new BSplinePitchNGramComparer(), 1, 2.1838, new BSplineTimeNGramComparer(), 0, 0.4772))));
-		else if (name.equals("2011-time") || name.equals("2012-time") || name.equals("2013-time"))
+		else if (Arrays.asList("2011-time", "2012-time", "2013-time", "2014-time").contains(name))
 			return new NGramMelodyComparer(4, new HybridAligner(new CachedNGramComparer(new CombinedNGramComparer(
 					new BSplinePitchNGramComparer(), 1, 2.1838, new BSplineTimeNGramComparer(), 0.5, 0.4772))));
-		else if (name.equals("2012-shapel"))
+		else if (Arrays.asList("2012-shapel").contains(name))
 			return new NGramMelodyComparer(3, new LocalAligner(new CachedNGramComparer(new FrequencyNGramComparer(coll,
 					3, new BSplineShapeNGramComparer(8, 1, 0.5)))));
-		else if (name.equals("2012-shapeg"))
+		else if (Arrays.asList("2012-shapeg").contains(name))
 			return new NGramMelodyComparer(3, new GlobalAligner(new CachedNGramComparer(new FrequencyNGramComparer(
 					coll, 3, new BSplineShapeNGramComparer(8, 1, 0.5)))));
-		else if (name.equals("2012-shapetime") || name.equals("2013-shapetime"))
-			return new NGramMelodyComparer(4, new HybridAligner(new CachedNGramComparer(new CombinedNGramComparer(
-					new BSplinePitchNGramComparer(), 1, 2.1838, new BSplineTimeNGramComparer(), 0.5, 0.4772))));
 		else
 			throw new IllegalArgumentException("unrecognized algorithm name: " + name);
 	}
 
 	/**
-	 * Returns a results ranker given its name.
+	 * Returns a results main ranker given its name.
 	 * 
 	 * @param name
-	 *            the name of the results ranker.
+	 *            the name of the results main ranker.
 	 * @param coll
 	 *            the collection of melodies to compare.
 	 * 
-	 * @return the retults ranker.
+	 * @return the results main ranker.
 	 */
-	public static ResultRanker getRanker(String name, MelodyCollection coll) {
+	public static ResultRanker getMainRanker(String name, MelodyCollection coll) {
 		if (Arrays.asList("2010-domain", "2010-pitchderiv", "2010-shape", "2011-shape", "2012-shapeh", "2012-shapel",
-				"2012-shapeg", "2013-shapeh").contains(name))
+				"2012-shapeg", "2012-shapetime", "2013-shapeh", "2013-shapetime", "2014-shapeh", "2014-shapetime").contains(name))
+			return new UntieResultRanker(new NGramMelodyComparer(3, new HybridAligner(new EqualPitchNGramComparer())));
+		else if(Arrays.asList("2011-pitch", "2011-time", "2012-time", "2013-time", "2014-time").contains(name))
+			return new UntieResultRanker(new NGramMelodyComparer(4, new HybridAligner(new EqualPitchNGramComparer())));
+		else
+			throw new IllegalArgumentException("unrecognized algorithm name: " + name);
+	}
+	
+	/**
+	 * Returns a melody re-rank comparer given its name (for 201x-shapetime algorithms).
+	 * 
+	 * @param name
+	 *            the name of the melody re-rank comparer.
+	 * @param coll
+	 *            the collection of melodies to use with the comparer.
+	 * @return the melody re-rank comparer or {@code null} if the comparer does not re-rank.
+	 */
+	public static MelodyComparer getRerankComparer(String name, MelodyCollection coll) {
+		if (Arrays.asList("2012-shapetime", "2013-shapetime", "2014-shapetime").contains(name))
+			return new NGramMelodyComparer(4, new HybridAligner(new CachedNGramComparer(new CombinedNGramComparer(
+					new BSplinePitchNGramComparer(), 1, 2.1838, new BSplineTimeNGramComparer(), 0.5, 0.4772))));
+		else
+			return null;
+	}
+	
+	/**
+	 * Returns a results re-rank ranker given its name (for 201x-shapetime algorithms).
+	 * 
+	 * @param name
+	 *            the name of the results re-rank ranker.
+	 * @param coll
+	 *            the collection of melodies to compare.
+	 * 
+	 * @return the results re-rank ranker or {@code null} if the comparer does not re-rank.
+	 */
+	public static ResultRanker getRerankRanker(String name, MelodyCollection coll) {
+		if (Arrays.asList("2012-shapetime", "2013-shapetime", "2014-shapetime").contains(name))
 			return new UntieResultRanker(new NGramMelodyComparer(3, new HybridAligner(new EqualPitchNGramComparer())));
 		else
-			return new UntieResultRanker(new NGramMelodyComparer(4, new HybridAligner(new EqualPitchNGramComparer())));
+			return null;
 	}
+
 		
 	/**
 	 * Runs an algorithm (comparer and ranker) as specified.

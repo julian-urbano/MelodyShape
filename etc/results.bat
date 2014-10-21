@@ -4,7 +4,7 @@
 SET MIDI=".\midi"
 
 :: List of algorithms
-SET ALGORITHMS=(2010-domain 2010-pitchderiv 2010-shape 2011-pitch 2011-time 2011-shape 2012-shapeh 2012-shapel 2012-shapeg 2012-time 2012-shapetime 2013-shapeh 2013-time 2013-shapetime)
+SET ALGORITHMS=(2010-domain 2010-pitchderiv 2010-shape 2011-pitch 2011-time 2011-shape 2012-shapeh 2012-shapel 2012-shapeg 2012-time 2012-shapetime 2013-shapeh 2013-time 2013-shapetime 2014-shapeh 2014-time 2014-shapetime)
 
 :: Check arguments
 IF /I "%1"=="help" (
@@ -50,7 +50,7 @@ GOTO DONE
 :WITHIN
 ::
 SETLOCAL EnableDelayedExpansion
-FOR %%A IN ("2010-shape 2011-shape 2012-shapeh 2013-shapeh" "2011-time 2012-time 2013-time" "2012-shapetime 2013-shapetime") DO (
+FOR %%A IN ("2010-shape 2011-shape 2012-shapeh 2013-shapeh 2014-shapeh" "2011-time 2012-time 2013-time 2014-time" "2012-shapetime 2013-shapetime 2014-shapetime") DO (
 SET BASELINE=NULL
 FOR %%B IN (%%~A) DO (
 	IF !BASELINE!==NULL SET BASELINE=%%B

@@ -18,8 +18,16 @@ package jurbano.melodyshape;
 import jurbano.melodyshape.ui.ConsoleUIObserver;
 import jurbano.melodyshape.ui.UIObserver;
 
+/**
+ * Main class used for MIREX submissions; just wraps arguments for {@link MelodyShape}.
+ * Not to be used elsewhere.
+ * 
+ * @author Julián Urbano
+ */
+@Deprecated
 public class Mirex {
 
+	@SuppressWarnings("javadoc")
 	public static void main(String[] args) {
 		if (args.length != 3) {
 			System.err.println("usage: melodyshape-mirex2014 <algorithm> <path-to-collection> <path-to-query>");
