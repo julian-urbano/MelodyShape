@@ -76,26 +76,64 @@ public class MidiReader implements MelodyReader
 				int pitch = sm.getData1();
 				int velocity = sm.getData2();
 				
+//				System.out.print("@"+time+": pitch="+pitch+" ");
+//				if(sm.getCommand() == ShortMessage.NOTE_ON && velocity != 0)
+//					System.out.println("ON");
+//				else if(sm.getCommand() == ShortMessage.NOTE_OFF || (sm.getCommand() == ShortMessage.NOTE_ON && velocity == 0))
+//					System.out.println("OFF");
+					
 				// A note_on with velocity=0 will be treated like a note_off
 				if (sm.getCommand() == ShortMessage.NOTE_ON && velocity != 0) {
 					if (lastPitch != -1){
-						// Relax polyphony constraint: a note_on always stops the previous note too (like a note_off)
-						//throw new IOException("Several notes at time " + time);
-						Note n = new Note((byte) pitch, lastOff, time - lastOn, (double) (lastOn - lastOff) / (time - lastOff));
-						m.add(n);
+						// Found a note_on when we expected a note_off. Two options here:
+						// 1) if the next event is close in time and it is the missing note_off, we just use this as note_off too.
+						// 2) if the next event is far or is not the missing note_off, we have polyphony.
+						boolean asNote_off = false;
+						if(i+1 < track.size()){
+							MidiEvent meNext = track.get(i+1);
+							MidiMessage mmNext = meNext.getMessage();
+							if(mmNext instanceof ShortMessage){
+								ShortMessage smNext = (ShortMessage)mmNext;
+								long timeNext = meNext.getTick();
+								int pitchNext = smNext.getData1();
+								int velocityNexy = smNext.getData2();
+								if((smNext.getCommand() == ShortMessage.NOTE_OFF || (smNext.getCommand() == ShortMessage.NOTE_ON && velocityNexy == 0)) &&
+									timeNext - time <= 1 && pitchNext == lastPitch){ // more than 1 tick away is too far
+									// We are in case 1)
+									Note n = new Note((byte) lastPitch, lastOff, time - lastOn, (double) (lastOn - lastOff) / (time - lastOff));
+									m.add(n);
+									
+									lastOff=time;
+									i++; // to skip the next note_off message processed here
+									asNote_off = true;
+								}
+							}
+						}
+						if(!asNote_off){
+							// We are in case 2)
+							throw new IOException("Several notes at time " + time);							
+						}
 					}
 					lastOn = time;
 					lastPitch = pitch;
 				} else if (sm.getCommand() == ShortMessage.NOTE_OFF || (sm.getCommand() == ShortMessage.NOTE_ON && velocity == 0)) {
-					if (lastPitch != -1) {
-						Note n = new Note((byte) pitch, lastOff, time - lastOn, (double) (lastOn - lastOff) / (time - lastOff));
+					if (lastPitch == pitch) {
+						Note n = new Note((byte) lastPitch, lastOff, time - lastOn, (double) (lastOn - lastOff) / (time - lastOff));
 						m.add(n);
+						lastPitch = -1;
+						lastOff = time;
+					}else{
+						// We have a note_off for a pitch different from last note_on's
+						throw new IOException("Several notes at time " + time);							
 					}
-					lastPitch = -1;
-					lastOff = time;
 				}
 			}
 		}
+		
+//		for(Note n : m){
+//			System.out.println(n.toString());
+//		}
+//		System.out.println();
 	}
 	
 	/**
