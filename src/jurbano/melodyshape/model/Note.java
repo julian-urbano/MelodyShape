@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Juli·n Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2013  Juli√°n Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ package jurbano.melodyshape.model;
  * The units for pitch, onset and duration are determined by the
  * {@link MelodyReader} used.
  * 
- * @author Juli·n Urbano
+ * @author Juli√°n Urbano
  * @see Melody
  * @see MelodyReader
  */

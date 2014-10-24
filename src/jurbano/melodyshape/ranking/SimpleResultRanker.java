@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Juli·n Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2013  Juli√°n Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ import jurbano.melodyshape.model.Melody;
  * increasing difference in length with the query, and then by melody
  * identifier.
  * 
- * @author Juli·n Urbano
+ * @author Juli√°n Urbano
  * @see ResultRanker
  */
 public class SimpleResultRanker implements ResultRanker

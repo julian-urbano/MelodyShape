@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Juli·n Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2013  Juli√°n Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ import jurbano.melodyshape.comparison.NGramComparer;
  * found in the alignment table. Thus, it does not penalize changes at the end
  * of sequences.
  * 
- * @author Juli·n Urbano
+ * @author Juli√°n Urbano
  * @see NGram
  * @see NGramComparer
  */

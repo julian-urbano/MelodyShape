@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Juli·n Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2013  Juli√°n Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 /**
  * Contains the base functions to compute Uniform B-Splines of degrees 1 to 6.
  * 
- * @author Juli·n Urbano
+ * @author Juli√°n Urbano
  */
 public interface UniformBSpline
 {

@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Juli·n Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2013  Juli√°n Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
  * pitch sequences using a Uniform B-Spline and then computes the area between
  * the first derivatives of the two splines.
  * 
- * @author Juli·n Urbano
+ * @author Juli√°n Urbano
  * @see BSplineTimeNGramComparer
  * @see UniformBSpline
  * @see NGramComparer

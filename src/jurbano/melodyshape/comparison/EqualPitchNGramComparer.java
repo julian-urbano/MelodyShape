@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Juli·n Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2013  Juli√°n Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ import jurbano.melodyshape.model.Note;
  * absolute pitch values. The similarity is binary: either the two n-grams have
  * the exact same pitch sequence or not.
  * 
- * @author Juli·n Urbano
+ * @author Juli√°n Urbano
  * @see NGram
  * @see NGramComparer
  */

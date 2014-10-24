@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Juli·n Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2013  Juli√°n Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import java.util.zip.ZipFile;
  * {@link Melody} objects can be read from individual files in a directory or in
  * a ZIP file.
  * 
- * @author Juli·n Urbano
+ * @author Juli√°n Urbano
  * @see MelodyCollection
  * @see Melody
  */

@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Juli·n Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2013  Juli√°n Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ import javax.sound.midi.Track;
  * zero is considered as a {@code NOTE_OFF} event. Onset time and duration are
  * measured in MIDI ticks.
  * 
- * @author Juli·n Urbano
+ * @author Juli√°n Urbano
  * @see MelodyReader
  * @see Melody
  */

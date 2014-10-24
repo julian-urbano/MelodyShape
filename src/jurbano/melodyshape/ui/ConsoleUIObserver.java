@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Juli·n Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2013  Juli√°n Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ import jurbano.melodyshape.ranking.ResultRanker;
 /**
  * Runs an algorithm with options specified through the command line.
  * 
- * @author Juli·n Urbano
+ * @author Juli√°n Urbano
  * @see UIObserver
  */
 public class ConsoleUIObserver implements UIObserver {
