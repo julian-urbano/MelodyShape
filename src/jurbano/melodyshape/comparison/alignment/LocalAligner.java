@@ -58,17 +58,19 @@ public class LocalAligner implements MelodyAligner
 	@Override
 	public double align(ArrayList<NGram> s1, ArrayList<NGram> s2) {
 		double[][] matrix = new double[s1.size() + 1][s2.size() + 1];
-		
+		double max = Double.NEGATIVE_INFINITY;
 		for (int i = 1; i <= s1.size(); i++) {
 			for (int j = 1; j <= s2.size(); j++) {
 				double left = matrix[i - 1][j] + this.comparer.compare(s1.get(i - 1), null);
 				double up = matrix[i][j - 1] + this.comparer.compare(null, s2.get(j - 1));
 				double diag = matrix[i - 1][j - 1] + this.comparer.compare(s1.get(i - 1), s2.get(j - 1));
 				matrix[i][j] = Math.max(0, Math.max(left, Math.max(up, diag)));
+				if (max < matrix[i][j])
+					max = matrix[i][j];
 			}
 		}
 		
-		return matrix[s1.size()][s2.size()];
+		return max / Math.min(s1.size(), s2.size());
 	}
 	
 }
