@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Julián Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2015  Julián Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,6 +58,7 @@ public class LocalAligner implements MelodyAligner
 	@Override
 	public double align(ArrayList<NGram> s1, ArrayList<NGram> s2) {
 		double[][] matrix = new double[s1.size() + 1][s2.size() + 1];
+		
 		double max = Double.NEGATIVE_INFINITY;
 		for (int i = 1; i <= s1.size(); i++) {
 			for (int j = 1; j <= s2.size(); j++) {
@@ -70,7 +71,7 @@ public class LocalAligner implements MelodyAligner
 			}
 		}
 		
-		return max / Math.min(s1.size(), s2.size());
+		return max / Math.min(s1.size(), s2.size());  // TODO: move normalization to algorithm?
 	}
 	
 }

@@ -84,9 +84,6 @@ public class HybridAligner implements MelodyAligner
 			}
 		}
 		
-		return max / Math.min(s1.size(), s2.size());// TODO: move normalization
-													// to algorithm? local and
-													// global are not
-													// normalized.
+		return max / Math.min(s1.size(), s2.size()); // TODO: move normalization to algorithm?
 	}
 }
