@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Julián Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2015  Julián Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -94,21 +94,27 @@ public class MelodyShape
 	 */
 	public static ArrayList<Melody> readQueries(File path) {
 		MelodyReader reader = new MidiReader();
-		try {
-			ArrayList<Melody> queries = new ArrayList<Melody>();
-			if (path.isDirectory()) {
-				// query path is a directory, read all files
-				for (File qFile : path.listFiles())
+		ArrayList<Melody> queries = new ArrayList<Melody>();
+		if (path.isDirectory()) {
+			// query path is a directory, read all files
+			for (File qFile : path.listFiles())
+				try {
 					if (reader.accept(path, qFile.getName()))
 						queries.add(reader.read(qFile.getName(), qFile.getAbsolutePath()));
-			} else {
-				// query path is a single file
+				} catch (IOException ex) {
+					throw new IllegalArgumentException("bad format in query file '" + qFile.getAbsolutePath() + "': "
+							+ ex.getMessage(), ex);
+				}
+		} else {
+			// query path is a single file
+			try {
 				queries.add(reader.read(path.getName(), path.getAbsolutePath()));
+			} catch (IOException ex) {
+				throw new IllegalArgumentException("bad format in query file '" + path.getAbsolutePath() + "': "
+						+ ex.getMessage(), ex);
 			}
-			return queries;
-		} catch (IOException ex) {
-			throw new IllegalArgumentException("bad format in query file:" + ex.getMessage(), ex);
 		}
+		return queries;
 	}
 
 	/**
@@ -123,7 +129,7 @@ public class MelodyShape
 		try {
 			return new InMemoryMelodyCollection(path.getName(), path.getAbsolutePath(), reader);
 		} catch (IOException ex) {
-			throw new IllegalArgumentException("bad format in document file: " + ex.getMessage());
+			throw new IllegalArgumentException(ex.getMessage());
 		}
 	}
 
@@ -160,7 +166,7 @@ public class MelodyShape
 			return new NGramMelodyComparer(3, new GlobalAligner(new CachedNGramComparer(new FrequencyNGramComparer(
 					coll, 3, new BSplineShapeNGramComparer(8, 1, 0.5)))));
 		else
-			throw new IllegalArgumentException("unrecognized algorithm name: " + name);
+			throw new IllegalArgumentException("unrecognized algorithm name: '" + name + "'");
 	}
 
 	/**
@@ -180,7 +186,7 @@ public class MelodyShape
 		else if(Arrays.asList("2011-pitch", "2011-time", "2012-time", "2013-time", "2014-time").contains(name))
 			return new UntieResultRanker(new NGramMelodyComparer(4, new HybridAligner(new EqualPitchNGramComparer())));
 		else
-			throw new IllegalArgumentException("unrecognized algorithm name: " + name);
+			throw new IllegalArgumentException("unrecognized algorithm name: '" + name + "'");
 	}
 	
 	/**

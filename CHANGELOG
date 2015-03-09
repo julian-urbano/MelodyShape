@@ -1,3 +1,5 @@
+* Fixed #5: enclose erroneous arguments in single quotes.
+* Fixed #4: show the name of files that fail to load.
 * Fixed #2: alignment score in LocalAligner.
 
 MelodyShape 1.2, 21-Oct-2014

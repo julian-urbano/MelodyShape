@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Julián Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2015  Julián Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -193,19 +193,19 @@ public class ConsoleUIObserver implements UIObserver {
 			// query
 			this.qOpt = new File(cmd.getOptionValue("q"));
 			if (!this.qOpt.exists()) {
-				System.err.println("Error: query file does not exist: " + cmd.getOptionValue("q"));
+				System.err.println("Error: query file does not exist: '" + cmd.getOptionValue("q") + "'");
 				return false;
 			}
 			// documents
 			this.cOpt = new File(cmd.getOptionValue("c"));
 			if (!this.cOpt.exists() || !this.cOpt.isDirectory()) {
-				System.err.println("Error: documents directory does not exist: " + cmd.getOptionValue("c"));
+				System.err.println("Error: documents directory does not exist: '" + cmd.getOptionValue("c") + "'");
 				return false;
 			}
 			// algorithm
 			this.aOpt = cmd.getOptionValue("a");
 			if (!MelodyShape.ALGORITHMS.contains(this.aOpt)) {
-				System.err.println("Error: invalid algorithm name: " + cmd.getOptionValue("a"));
+				System.err.println("Error: invalid algorithm name: '" + cmd.getOptionValue("a") + "'");
 				return false;
 			}
 			// single-line
@@ -216,12 +216,12 @@ public class ConsoleUIObserver implements UIObserver {
 				try {
 					int tOptArg = Integer.parseInt(cmd.getOptionValue("t"));
 					if (tOptArg < 1) {
-						System.err.println("Error: invalid number ot threads: " + cmd.getOptionValue("t"));
+						System.err.println("Error: invalid number ot threads: '" + cmd.getOptionValue("t") + "'");
 						return false;
 					}
 					this.tOpt = tOptArg;
 				} catch (NumberFormatException ex) {
-					System.err.println("Error: invalid number ot threads: " + cmd.getOptionValue("t"));
+					System.err.println("Error: invalid number ot threads: '" + cmd.getOptionValue("t") + "'");
 					return false;
 				}
 			}
@@ -230,11 +230,11 @@ public class ConsoleUIObserver implements UIObserver {
 				try {
 					this.kOpt = Integer.parseInt(cmd.getOptionValue("k"));
 					if (this.kOpt < 1) {
-						System.err.println("Error: invalid cutoff k: " + kOpt);
+						System.err.println("Error: invalid cutoff k: '" + kOpt + "'");
 						return false;
 					}
 				} catch (NumberFormatException ex) {
-					System.err.println("Error: invalid cutoff k: " + cmd.getOptionValue("k"));
+					System.err.println("Error: invalid cutoff k: '" + cmd.getOptionValue("k") + "'");
 					return false;
 				}
 			}

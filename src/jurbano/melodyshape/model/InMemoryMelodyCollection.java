@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Julián Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2015  Julián Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,15 +69,20 @@ public class InMemoryMelodyCollection implements MelodyCollection
 	 */
 	public InMemoryMelodyCollection(String name, String path, MelodyReader reader) throws IOException {
 		this(name);
-		
+
 		// Read all midi files
 		File file = new File(path);
 		if (file.isDirectory()) {
 			// it's a directory
 			for (File f : file.listFiles(reader)) {
-				String id = f.getName();
-				Melody m = reader.read(id, f.getAbsolutePath());
-				this.melodies.put(m.getId(), m);
+				try {
+					String id = f.getName();
+					Melody m = reader.read(id, f.getAbsolutePath());
+					this.melodies.put(m.getId(), m);
+				} catch (IOException ex) {
+					throw new IllegalArgumentException("bad format in document file '" + f.getAbsolutePath() + "': "
+							+ ex.getMessage());
+				}
 			}
 		} else if (file.getName().toLowerCase().endsWith(".zip")) {
 			// it's a zip file
@@ -86,11 +91,20 @@ public class InMemoryMelodyCollection implements MelodyCollection
 			while (entries.hasMoreElements()) {
 				ZipEntry e = entries.nextElement();
 				if (!e.isDirectory() && reader.accept(null, e.getName())) {
-					String id = e.getName();
-					InputStream inStream = zip.getInputStream(e);
-					Melody m = reader.read(id, inStream);
-					this.melodies.put(m.getId(), m);
-					inStream.close();
+					InputStream inStream = null;
+					try {
+						String id = e.getName();
+						inStream = zip.getInputStream(e);
+						Melody m = reader.read(id, inStream);
+						this.melodies.put(m.getId(), m);
+						inStream.close();
+					} catch (IOException ex) {
+						if (inStream != null)
+							inStream.close();
+						zip.close();
+						throw new IllegalArgumentException("bad format in document file '" + e.getName() + "': "
+								+ ex.getMessage());
+					}
 				}
 			}
 			zip.close();

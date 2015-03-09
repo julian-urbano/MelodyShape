@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Julián Urbano <urbano.julian@gmail.com>
+// Copyright (C) 2015  Julián Urbano <urbano.julian@gmail.com>
 // 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ public class MidiReader implements MelodyReader
 						}
 						if(!asNote_off){
 							// We are in case 2)
-							throw new IOException("Several notes at time " + time);							
+							throw new IOException("several notes at time " + time);							
 						}
 					}
 					lastOn = time;
@@ -124,7 +124,7 @@ public class MidiReader implements MelodyReader
 						lastOff = time;
 					}else{
 						// We have a note_off for a pitch different from last note_on's
-						throw new IOException("Several notes at time " + time);							
+						throw new IOException("several notes at time " + time);							
 					}
 				}
 			}
