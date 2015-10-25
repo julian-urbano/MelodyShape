@@ -30,7 +30,7 @@ public class Mirex {
 	@SuppressWarnings("javadoc")
 	public static void main(String[] args) {
 		if (args.length != 3) {
-			System.err.println("usage: melodyshape-mirex2014 <algorithm> <path-to-collection> <path-to-query>");
+			System.err.println("usage: melodyshape-mirex2015 <algorithm> <path-to-collection> <path-to-query>");
 			System.err.println("       where <algorithm> is one of shapeh, time or shapetime");
 			System.exit(1);
 		}

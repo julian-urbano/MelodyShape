@@ -1,3 +1,6 @@
+MelodyShape 1.3, 25-Oct-2015
+============================
++ Added support for the MIREX 2015 submissions.
 * Fixed #5: enclose erroneous arguments in single quotes.
 * Fixed #4: show the name of files that fail to load.
 * Fixed #2: alignment score in LocalAligner.

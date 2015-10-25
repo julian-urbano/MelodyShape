@@ -90,7 +90,8 @@ public class ConsoleUIObserver implements UIObserver {
 								+ "\n- 2011-shape, 2011-pitch, 2011-time"
 								+ "\n- 2012-shapeh, 2012-shapel, 2012-shapeg, 2012-time, 2012-shapetime"
 								+ "\n- 2013-shapeh, 2013-time, 2013-shapetime"
-								+ "\n- 2014-shapeh, 2014-time, 2014-shapetime").create("a"));
+								+ "\n- 2014-shapeh, 2014-time, 2014-shapetime"
+								+ "\n- 2015-shapeh, 2015-time, 2015-shapetime").create("a"));
 		// optional arguments
 		this.options.addOption(OptionBuilder
 				.withDescription("show results in a single line (omits similarity scores).").create("l"));
@@ -150,7 +151,8 @@ public class ConsoleUIObserver implements UIObserver {
 
 		this.verbose(2, "done.\n\n");
 		this.verbose(2, "  Comparer: " + comparer.getName() + "\n");
-		if (this.aOpt.equals("2012-shapetime") || this.aOpt.equals("2013-shapetime") || this.aOpt.equals("2014-shapetime"))
+		if (this.aOpt.equals("2012-shapetime") || this.aOpt.equals("2013-shapetime") || this.aOpt.equals("2014-shapetime")
+				 || this.aOpt.equals("2015-shapetime"))
 			this.verbose(2, "    Ranker: " + comparerRerank.getName() + "\n");
 		else
 			this.verbose(2, "    Ranker: " + ranker.getName() + "\n");
