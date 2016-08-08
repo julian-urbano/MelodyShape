@@ -3,42 +3,27 @@
 
 package jurbano.melodyshape;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
-import jurbano.melodyshape.comparison.CachedNGramComparer;
-import jurbano.melodyshape.comparison.CombinedNGramComparer;
-import jurbano.melodyshape.comparison.EqualPitchNGramComparer;
-import jurbano.melodyshape.comparison.FrequencyNGramComparer;
-import jurbano.melodyshape.comparison.IntervalPitchNGramComparer;
-import jurbano.melodyshape.comparison.MelodyComparer;
-import jurbano.melodyshape.comparison.NGramMelodyComparer;
+import jurbano.melodyshape.comparison.*;
 import jurbano.melodyshape.comparison.alignment.GlobalAligner;
 import jurbano.melodyshape.comparison.alignment.HybridAligner;
 import jurbano.melodyshape.comparison.alignment.LocalAligner;
 import jurbano.melodyshape.comparison.bspline.BSplinePitchNGramComparer;
 import jurbano.melodyshape.comparison.bspline.BSplineShapeNGramComparer;
 import jurbano.melodyshape.comparison.bspline.BSplineTimeNGramComparer;
-import jurbano.melodyshape.model.InMemoryMelodyCollection;
-import jurbano.melodyshape.model.Melody;
-import jurbano.melodyshape.model.MelodyCollection;
-import jurbano.melodyshape.model.MelodyReader;
-import jurbano.melodyshape.model.MidiReader;
+import jurbano.melodyshape.model.*;
 import jurbano.melodyshape.ranking.Result;
 import jurbano.melodyshape.ranking.ResultRanker;
 import jurbano.melodyshape.ranking.UntieResultRanker;
 import jurbano.melodyshape.ui.ConsoleUIObserver;
 import jurbano.melodyshape.ui.GraphicalUIObserver;
 import jurbano.melodyshape.ui.UIObserver;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * Main class of the tool. Contains all the logic to read MIDI collections,
@@ -62,7 +47,7 @@ public class MelodyShape
 	 */
 	public static String COPYRIGHT_NOTICE ="MelodyShape " + MelodyShape.VERSION
 			+ "  Copyright (C) 2013-2016  Julian Urbano <urbano.julian@gmail.com>\n"
-			+ "  This program is distributed under the terms of the MIT License.";
+			+ "This program is distributed under the terms of the MIT License.";
 	/**
 	 * The list of algorithms available in the release.
 	 */
