@@ -26,10 +26,8 @@ MelodyShape can be run both as a graphical user interface and as a command line 
 	-gui           run with graphical user interface.
 	-h             show this help message.
 	
-	MelodyShape 1.3  Copyright (C) 2015  Julian Urbano <urbano.julian@gmail.com>
-	This program comes with ABSOLUTELY NO WARRANTY.
-	This is free software, and you are welcome to redistribute it
-	under the terms of the GNU General Public License version 3.
+	MelodyShape 1.3  Copyright (C) 2013-2016  Julian Urbano <urbano.julian@gmail.com>
+	This program is distributed under the terms of the MIT License.
 
 A detailed user manual in PDF is available from the [releases page](https://github.com/julian-urbano/MelodyShape/releases).
 
@@ -42,4 +40,4 @@ Dependencies
 Current Version
 ---------------
 
-The current version is [MelodyShape 1.3](https://github.com/julian-urbano/MelodyShape/releases/tag/v1.3), and it is compiled for Java 7. It can be redistributed and/or modified under the terms of the GNU General Public License version 3. Javadoc documentation and a user manual are available as well.
+The current version is [MelodyShape 1.3](https://github.com/julian-urbano/MelodyShape/releases/tag/v1.3), and it is compiled for Java 7. It can be redistributed and/or modified under the terms of the MIT License. Javadoc documentation and a user manual are available as well.
