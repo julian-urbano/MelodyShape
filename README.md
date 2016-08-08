@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/julian-urbano/MelodyShape/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/julian-urbano/MelodyShape.svg)](https://github.com/julian-urbano/MelodyShape/releases/latest)
 [![JDK](https://img.shields.io/badge/JDK-1.7-blue.svg)]()
 [![Build Status](https://travis-ci.org/julian-urbano/MelodyShape.png)](https://travis-ci.org/julian-urbano/MelodyShape)
