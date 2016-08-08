@@ -3,29 +3,17 @@
 
 package jurbano.melodyshape.ui;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.cli.BasicParser;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
 import jurbano.melodyshape.MelodyShape;
 import jurbano.melodyshape.comparison.MelodyComparer;
 import jurbano.melodyshape.model.Melody;
 import jurbano.melodyshape.model.MelodyCollection;
 import jurbano.melodyshape.ranking.Result;
 import jurbano.melodyshape.ranking.ResultRanker;
+import org.apache.commons.cli.*;
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.*;
 
 /**
  * Runs an algorithm with options specified through the command line.
@@ -68,29 +56,25 @@ public class ConsoleUIObserver implements UIObserver {
 
 		this.options = new Options();
 		// required arguments
-		this.options.addOption(OptionBuilder.isRequired().hasArg().withArgName("file/dir")
-				.withDescription("path to the query melody or melodies.").create("q"));
-		this.options.addOption(OptionBuilder.isRequired().hasArg().withArgName("dir")
-				.withDescription("path to the collection of documents.").create("c"));
-		this.options.addOption(OptionBuilder.isRequired().hasArg().withArgName("name")
-				.withDescription(
-						"algorithm to run:" + "\n- 2010-domain, 2010-pitchderiv, 2010-shape"
+		this.options.addOption(Option.builder("q").required().hasArg().argName("file/dir")
+				.desc("path to the query melody or melodies.").build());
+		this.options.addOption(Option.builder("c").required().hasArg().argName("dir")
+				.desc("path to the collection of documents.").build());
+		this.options.addOption(Option.builder("a").required().hasArg().argName("name")
+				.desc("algorithm to run:" + "\n- 2010-domain, 2010-pitchderiv, 2010-shape"
 								+ "\n- 2011-shape, 2011-pitch, 2011-time"
 								+ "\n- 2012-shapeh, 2012-shapel, 2012-shapeg, 2012-time, 2012-shapetime"
 								+ "\n- 2013-shapeh, 2013-time, 2013-shapetime"
 								+ "\n- 2014-shapeh, 2014-time, 2014-shapetime"
-								+ "\n- 2015-shapeh, 2015-time, 2015-shapetime").create("a"));
+								+ "\n- 2015-shapeh, 2015-time, 2015-shapetime").build());
 		// optional arguments
-		this.options.addOption(OptionBuilder
-				.withDescription("show results in a single line (omits similarity scores).").create("l"));
-		this.options.addOption(OptionBuilder.hasArg().withArgName("num")
-				.withDescription("run a fixed number of threads.").create("t"));
-		this.options.addOption(OptionBuilder.hasArg().withArgName("cutoff")
-				.withDescription("number of documents to retrieve.").create("k"));
-		this.options.addOption(OptionBuilder.withDescription("verbose, to stderr.").create("v"));
-		this.options.addOption(OptionBuilder.withDescription("verbose a lot, to stderr.").create("vv"));
-		this.options.addOption(OptionBuilder.withDescription("show this help message.").create("h"));
-		this.options.addOption(OptionBuilder.withDescription("run with graphical user interface.").create("gui"));
+		this.options.addOption(Option.builder("l").desc("show results in a single line (omits similarity scores).").build());
+		this.options.addOption(Option.builder("t").hasArg().argName("num").desc("run a fixed number of threads.").build());
+		this.options.addOption(Option.builder("k").hasArg().argName("cutoff").desc("number of documents to retrieve.").build());
+		this.options.addOption(Option.builder("v").desc("verbose, to stderr.").build());
+		this.options.addOption(Option.builder("vv").desc("verbose a lot, to stderr.").build());
+		this.options.addOption(Option.builder("h").desc("show this help message.").build());
+		this.options.addOption(Option.builder("gui").desc("run with graphical user interface.").build());
 	}
 
 	/**
@@ -168,7 +152,7 @@ public class ConsoleUIObserver implements UIObserver {
 	}
 
 	protected boolean parseArguments() {
-		CommandLineParser parser = new BasicParser();
+		CommandLineParser parser = new DefaultParser();
 
 		// help? Cannot wait to parse args because it will throw exception
 		// before

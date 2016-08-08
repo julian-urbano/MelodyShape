@@ -3,11 +3,11 @@
 
 package jurbano.melodyshape.ranking;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 import jurbano.melodyshape.comparison.MelodyComparer;
 import jurbano.melodyshape.model.Melody;
+
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * A ranking function that sorts by decreasing similarity score, then by

@@ -41,7 +41,7 @@ public class MelodyShape
 	/**
 	 * The release version number.
 	 */
-	public static String VERSION = "1.3";
+	public static String VERSION = "1.4";
 	/**
 	 * The copyright notice, including date and version.
 	 */
@@ -91,7 +91,7 @@ public class MelodyShape
 
 	/**
 	 * Returns a melody collection found in a path.
-	 * 
+	 *
 	 * @param path
 	 *            the path to the directory containing all melodies.
 	 * @return the melody collection.

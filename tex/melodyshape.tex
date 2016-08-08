@@ -8,29 +8,29 @@
 \usepackage[top=.8in, bottom=.8in, left=0.9in, right=0.9in,a4paper]{geometry}
 
 \begin{document}
-\title{\textbf{MelodyShape: a Library and Tool for Symbolic Melodic Similarity based on Shape Similarity\\{\Large Version 1.3}}}
+\title{\textbf{MelodyShape: a Library and Tool for Symbolic Melodic Similarity based on Shape Similarity\\{\Large Version 1.4}}}
 \author{Juli\'an Urbano\\Universitat Pompeu Fabra\\\texttt{urbano.julian@gmail.com}}
 \maketitle
 
 \sloppy 
 
 \begin{abstract}
-\noindent\texttt{MelodyShape}\footnote{For the latest version of the software and this document, please visit \url{http://julian-urbano.info}.} is a Java library and tool to compute the melodic similarity between monophonic music pieces. It implements several algorithms that compute similarity based on the geometric shape that melodies describe in the pitch-time plane. All these algorithms have obtained the best results in the MIREX\footnote{\url{http://music-ir.org/mirex/wiki/MIREX_HOME}} Symbolic Melodic Similarity task in 2010, 2011, 2012, 2013, 2014 and 2015 editions, as well as the best results reported for the 2005 collection. This document describes the tool and its execution options; for background information the reader is referred to \cite{Urbano2011:shape}.
+\noindent\texttt{MelodyShape}\footnote{For the latest version of the software and this document, please visit \url{https://github.com/julian-urbano/MelodyShape}.} is a Java library and tool to compute the melodic similarity between monophonic music pieces. It implements several algorithms that compute similarity based on the geometric shape that melodies describe in the pitch-time plane. All these algorithms have obtained the best results in the MIREX\footnote{\url{http://music-ir.org/mirex/wiki/MIREX_HOME}} Symbolic Melodic Similarity task in 2010, 2011, 2012, 2013, 2014 and 2015 editions, as well as the best results reported for the 2005 collection. This document describes the tool and its execution options; for background information the reader is referred to \cite{Urbano2011:shape}.
 \end{abstract}
 
 \section{Dependencies}
 
 \texttt{MelodyShape} is available both as source code and as an executable JAR package. It requires two libraries found in the Apache Commons project, which are \emph{not} included in the JAR package: \texttt{commons-cli} and \texttt{commons-math}.
-JAR packages for both libraries can be downloaded from the Apache Commons project website\footnote{\url{http://commons.apache.org}}. \texttt{MelodyShape} v1.3 was specifically implemented and tested with versions \texttt{commons-cli-1.2} and \texttt{commons-math3-3.2}, also available from the \texttt{MelodyShape} website\footnote{\url{https://github.com/julian-urbano/MelodyShape}}.
+JAR packages for both libraries can be downloaded from the Apache Commons project website\footnote{\url{http://commons.apache.org}}. \texttt{MelodyShape} v1.4 was specifically implemented and tested with versions \texttt{commons-cli-1.3.1} and \texttt{commons-math3-3.6.1}.
 Both libraries will have to be accessible from the Java classpath.
 
 The easiest way to run the \texttt{MelodyShape} tool is to download all JAR files in the same directory, and then run Java from the command line (a graphical user interface is also available, see \S\ref{ssec:gui}.):
 \begin{lstlisting}
 $ ls
-commons-cli-1.2.jar    commons-math3-3.2.jar    melodyshape-1.3.jar    data
+commons-cli-1.3.1.jar    commons-math3-3.6.1.jar    melodyshape-1.4.jar    data
 
-$ java -jar melodyshape-1.3.jar
-usage: melodyshape-1.3 -q <file/dir> -c <dir> -a <name> [-k <cutoff>] [-l]
+$ java -jar melodyshape-1.4.jar
+usage: melodyshape-1.4 -q <file/dir> -c <dir> -a <name> [-k <cutoff>] [-l]
                          [-t <num>] [-v] [-vv] [-gui] [-h]
 -q <file/dir>  path to the query melody or melodies.
 -c <dir>       path to the collection of documents.
@@ -49,11 +49,19 @@ usage: melodyshape-1.3 -q <file/dir> -c <dir> -a <name> [-k <cutoff>] [-l]
 -gui           run with graphical user interface.
 -h             show this help message.
 
-MelodyShape 1.3  Copyright (C) 2013-2016  Julian Urbano <urbano.julian@gmail.com>
+MelodyShape 1.4  Copyright (C) 2013-2016  Julian Urbano <urbano.julian@gmail.com>
 This program is distributed under the terms of the MIT License.
 \end{lstlisting}
 
-Currently, \texttt{MelodyShape} v1.3 is compiled for Java 7. It can be redistributed and/or modified under the terms of the MIT License.
+Alternatively, one can use Maven to build the project and, in particular, download dependencies directly.
+\begin{lstlisting}
+$ mvn dependency:copy-dependencies
+...
+$ ls target/dependencies
+commons-cli-1.3.1.jar  commons-math3-3.6.1.jar
+\end{lstlisting}
+
+Currently, \texttt{MelodyShape} v1.4 is compiled for Java 7. It can be redistributed and/or modified under the terms of the MIT License.
 
 \section{Tool Options}
 
@@ -61,7 +69,7 @@ Currently, \texttt{MelodyShape} v1.3 is compiled for Java 7. It can be redistrib
 
 \texttt{MelodyShape} requires one or more query melodies, a collection of melodies to sort according to their melodic similarity to the queries, and the name of the algorithm to compute those similarities. These three parameters must be indicated with arguments \texttt{-q}, \texttt{-c} and \texttt{-a} in the command line. For instance, we can compute the similarity of melody \texttt{data/q01.mid} with all melodies in directory \texttt{data/coll/} using algorithm \texttt{2010-shape}:
 \begin{lstlisting}
-$ java -jar melodyshape-1.3.jar -q data/q01.mid -c data/coll/ -a 2010-shape
+$ java -jar melodyshape-1.4.jar -q data/q01.mid -c data/coll/ -a 2010-shape
 06C6.mid    0.48583945
 1065.mid    0.16715906
 07D0.mid    0.15722630
@@ -76,7 +84,7 @@ The output is a list of all files in \texttt{data/coll/} sorted by melodic simil
 
 \texttt{MelodyShape} can be run several times, once for each of the queries we have. Alternatively, it can be run once for all queries, resulting in a more efficient execution. The following would run \texttt{MelodyShape} will all queries in directory \texttt{data/}\footnote{Throughout this document, underlined text highlights the changes with the previous executions.}:
 \begin{lstlisting}
-$ java -jar melodyshape-1.3.jar |\underline{-q data/}| -c data/coll/ -a 2010-shape
+$ java -jar melodyshape-1.4.jar |\underline{-q data/}| -c data/coll/ -a 2010-shape
 q01.mid    06C6.mid    0.48583945
 q01.mid    1065.mid    0.16715906
 ...
@@ -93,7 +101,7 @@ Results are again sorted by melodic similarity to the queries, one query after a
 
 The \texttt{-k} command line argument can be used to indicate how many results to show per query. For example, to show only the two most similar melodies for each query:
 \begin{lstlisting}
-$ java -jar melodyshape-1.3.jar -q data/ -c data/coll/ -a 2010-shape |\underline{-k 2}|
+$ java -jar melodyshape-1.4.jar -q data/ -c data/coll/ -a 2010-shape |\underline{-k 2}|
 q01.mid    06C6.mid    0.48583945
 q01.mid    1065.mid    0.16715906
 q02.mid    0859.mid    0.44796066
@@ -107,7 +115,7 @@ q06.mid    0B15.mid    0.24436125
 
 The \texttt{-l} command line argument indicates that results should be displayed in a single line, one line per query:
 \begin{lstlisting}
-$ java -jar melodyshape-1.3.jar -q data/ -c data/coll/ -a 2010-shape |\underline{-k 5}| |\underline{-l}|
+$ java -jar melodyshape-1.4.jar -q data/ -c data/coll/ -a 2010-shape |\underline{-k 5}| |\underline{-l}|
 q01.mid    06C6.mid    1065.mid    07D0.mid    0A5A.mid    04D7.mid
 q02.mid    0859.mid    03FA.mid    0B15.mid    0454.mid    0B2C.mid
 ...
@@ -120,7 +128,7 @@ Similarly, the first column identifies the query, and the rest identifies the mo
 
 The \texttt{-v} command line argument can be used to display the execution progress, simply showing when each query starts being run:
 \begin{lstlisting}
-$ java -jar melodyshape-1.3.jar -q data/ -c data/coll/ -a 2010-shape -k 5 -l |\underline{-v}|
+$ java -jar melodyshape-1.4.jar -q data/ -c data/coll/ -a 2010-shape -k 5 -l |\underline{-v}|
 (1/6) q01.mid...done.
 q01.mid    06C6.mid    1065.mid    07D0.mid    0A5A.mid    04D7.mid
 (2/6) q02.mid...done.
@@ -132,7 +140,7 @@ q06.mid    0859.mid    0B15.mid    0F0A.mid    0B2C.mid    0454.mid
 
 The \texttt{-vv} command line argument can be used to display real-time execution progress, some information about the algorithm used and time spent running each query:
 \begin{lstlisting}
-$ java -jar melodyshape-1.3.jar -q data/ -c data/coll/ -a 2010-shape -k 5 -l |\underline{-vv}|
+$ java -jar melodyshape-1.4.jar -q data/ -c data/coll/ -a 2010-shape -k 5 -l |\underline{-vv}|
 Reading queries...done (6 melodies).
 Reading collection...done (2000 melodies).
 Instantiating algorithm...done.
@@ -150,7 +158,7 @@ q02.mid    0859.mid    03FA.mid    0B15.mid    0454.mid    0B2C.mid
 
 All this extra information is output to the standard error stream, so that the actual results per query can be easily set apart with a pipeline:
 \begin{lstlisting}
-$ java -jar melodyshape-1.3.jar -q data/ -c data/coll/ -a 2010-shape -l -vv |\underline{> out}|
+$ java -jar melodyshape-1.4.jar -q data/ -c data/coll/ -a 2010-shape -l -vv |\underline{> out}|
 Reading queries...done (6 melodies).
 Reading collection...done (2000 melodies).
 Instantiating algorithm...done.
@@ -174,12 +182,12 @@ q06.mid    0859.mid    0B15.mid    0F0A.mid    0B2C.mid    0454.mid ...
 
 The \texttt{-t} command line argument can be used to indicate the number of threads to use by the algorithms. By default, as many threads as CPU cores found in the machine will be used. We can, for instance, restrict CPU usage to just two threads:
 \begin{lstlisting}
-$ java -jar melodyshape-1.3.jar -q data/ -c data/coll/ -a 2010-shape |\underline{-t 2}|
+$ java -jar melodyshape-1.4.jar -q data/ -c data/coll/ -a 2010-shape |\underline{-t 2}|
 \end{lstlisting}
 
 \subsection{Graphical User Interface: \texttt{-gui}}\label{ssec:gui}
 
-The \texttt{-gui} command line argument can be used to run \texttt{MelodyShape} with a graphical user interface rather than as a command line tool, which will show up a window as in Figure~\ref{fig:gui}. Alternatively, the graphical user interface can be run directly by running the \texttt{melodyshape-1.3.jar} JAR file from a windows or file explorer, usually by double-clicking on it.
+The \texttt{-gui} command line argument can be used to run \texttt{MelodyShape} with a graphical user interface rather than as a command line tool, which will show up a window as in Figure~\ref{fig:gui}. Alternatively, the graphical user interface can be run directly by running the \texttt{melodyshape-1.4.jar} JAR file from a windows or file explorer, usually by double-clicking on it.
 \begin{figure}[!h]
 \centering\includegraphics[scale=.6]{gui.png}
 \caption{\texttt{MelodyShape} graphical user interface.}
@@ -190,7 +198,7 @@ The options available from the graphical user interface are basically those avai
 
 \section{Algorithms}
 
-\texttt{MelodyShape} implements several melodic similarity algorithms based on a geometric model that represents melodies as spline curves in the pitch-time plane. The similarity between two melodies is then computed with a sequence alignment algorithm between sequences of spline spans: the more similar the shape of the curves, the more similar the melodies they represent. \texttt{MelodyShape} v1.3 implements algorithms based on this model that have been submitted to the MIREX Symbolic Melodic Similarity task in 2010, 2011, 2012, 2013, 2014 and 2015. 
+\texttt{MelodyShape} implements several melodic similarity algorithms based on a geometric model that represents melodies as spline curves in the pitch-time plane. The similarity between two melodies is then computed with a sequence alignment algorithm between sequences of spline spans: the more similar the shape of the curves, the more similar the melodies they represent. \texttt{MelodyShape} v1.4 implements algorithms based on this model that have been submitted to the MIREX Symbolic Melodic Similarity task in 2010, 2011, 2012, 2013, 2014 and 2015. 
 
 The following table shows the \texttt{-a} command line argument to be used for each algorithm, with the corresponding official MIREX submission name\footnote{Algorithm \textsf{JU3-ParamDeriv} from MIREX 2010 is not implemented in \texttt{MelodyShape}.}. For instance, argument \texttt{-a 2011-shape} corresponds to algorithm \textsf{UL1-Shape} from MIREX 2011, which is the same as algorithms \textsf{JU4-Shape}, \textsf{ULMS1-ShapeH}, \textsf{JU1-ShapeH}, \textsf{JU1-ShapeH} and \textsf{JU1-ShapeH} from MIREX 2010, 2012, 2013, 2014 and 2015, respectively.
 

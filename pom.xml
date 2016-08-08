@@ -6,7 +6,7 @@
 
     <groupId>jurbano</groupId>
     <artifactId>melodyshape</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
     <name>MelodyShape</name>
     <description>A Library and Tool for Symbolic Melodic Similarity based on Shape Similarity</description>
     <url>https://github.com/julian-urbano/MelodyShape</url>

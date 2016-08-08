@@ -7,8 +7,8 @@ All these algorithms have obtained the best results in the [MIREX](http://music-
 
 MelodyShape can be run both as a graphical user interface and as a command line tool:
 
-	$ java -jar melodyshape-1.3.jar
-	usage: melodyshape-1.3 -q <file/dir> -c <dir> -a <name> [-k <cutoff>] [-l] [-t <num>] [-v] [-vv] [-gui] [-h]
+	$ java -jar melodyshape-1.4.jar
+	usage: melodyshape-1.4 -q <file/dir> -c <dir> -a <name> [-k <cutoff>] [-l] [-t <num>] [-v] [-vv] [-gui] [-h]
 	-q <file/dir>  path to the query melody or melodies.
 	-c <dir>       path to the collection of documents.
 	-a <name>      algorithm to run:
@@ -26,7 +26,7 @@ MelodyShape can be run both as a graphical user interface and as a command line 
 	-gui           run with graphical user interface.
 	-h             show this help message.
 	
-	MelodyShape 1.3  Copyright (C) 2013-2016  Julian Urbano <urbano.julian@gmail.com>
+	MelodyShape 1.4  Copyright (C) 2013-2016  Julian Urbano <urbano.julian@gmail.com>
 	This program is distributed under the terms of the MIT License.
 
 A detailed user manual in PDF is available from the [releases page](https://github.com/julian-urbano/MelodyShape/releases).
@@ -37,7 +37,9 @@ Dependencies
 * The MelodyShape library uses the [Math library](http://commons.apache.org/proper/commons-math/) from Apache Commons.
 * The command line tool uses the [CLI library](http://commons.apache.org/proper/commons-cli/) from Apache Commons.
 
+Dependencies and building can be managed directly with Maven.
+
 Current Version
 ---------------
 
-The current version is [MelodyShape 1.3](https://github.com/julian-urbano/MelodyShape/releases/tag/v1.3), and it is compiled for Java 7. It can be redistributed and/or modified under the terms of the MIT License. Javadoc documentation and a user manual are available as well.
+The current version is [MelodyShape 1.4](https://github.com/julian-urbano/MelodyShape/releases/tag/v1.4), and it is compiled for Java 7. It can be redistributed and/or modified under the terms of the MIT License. Javadoc documentation and a user manual are available as well.
