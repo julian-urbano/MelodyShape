@@ -48,3 +48,5 @@ Current Version
 ---------------
 
 The current version is [MelodyShape 1.4](https://github.com/julian-urbano/MelodyShape/releases/tag/v1.4), and it is compiled for Java 7. It can be redistributed and/or modified under the terms of the MIT License. Javadoc documentation and a user manual are available as well.
+
+> This work was supported by an A4U postdoctoral grant and a Juan de la Cierva postdoctoral fellowship.
